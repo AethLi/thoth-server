@@ -1,11 +1,11 @@
 package cn.aethli.thoth;
 
-import cn.aethli.thoth.entity.mdata;
+import cn.aethli.thoth.entity.MData;
 import cn.aethli.thoth.feign.LotteryRequestFeign;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.List;
+import java.util.Iterator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +23,18 @@ public class ThothServerApplicationTests {
   public void contextLoads() {
   }
 
-  @Test
-  public void lotterySpider() {
-    String lottery = lotteryRequestFeign.getLottery("8", "19081", "100");
-    ObjectMapper objectMapper = new ObjectMapper();
-    List<mdata> m;
-    try {
-      JsonNode jsonNode = objectMapper.readTree(lottery);
-      jsonNode = jsonNode.findValue("mdata");
-      m = objectMapper.treeToValue(jsonNode, List.class);
-      System.out.println(m.get(0).getCodeNumber());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+//  @Test
+//  public void lotterySpider() {
+//    String lottery = lotteryRequestFeign.getLottery("8", "19081", "100");
+//    ObjectMapper objectMapper = new ObjectMapper();
+//    MData m;
+//    try {
+//      JsonNode jsonNode = objectMapper.readTree(lottery);
+//      jsonNode = jsonNode.findParent("mdata");
+//      Iterator<JsonNode> mdata = jsonNode.findValue("mdata").elements();
+//      m = objectMapper.treeToValue(mdata.next(), MData.class);
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//  }
 }

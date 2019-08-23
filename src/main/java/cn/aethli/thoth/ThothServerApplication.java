@@ -11,5 +11,4 @@ public class ThothServerApplication {
   public static void main(String[] args) {
     SpringApplication.run(ThothServerApplication.class, args);
   }
-
 }

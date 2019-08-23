@@ -1,5 +1,6 @@
 package cn.aethli.thoth.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Data;
@@ -10,7 +11,8 @@ import lombok.Data;
  * @date: 2019-08-23 10:53
  **/
 @Data
-public class mdata {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class MData {
 
   @JsonProperty(value = "codeNumber")
   String[] codeNumber;
