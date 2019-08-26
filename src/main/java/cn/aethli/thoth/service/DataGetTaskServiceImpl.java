@@ -1,7 +1,7 @@
 package cn.aethli.thoth.service;
 
 import cn.aethli.thoth.entity.MData;
-import cn.aethli.thoth.feign.LotteryRequestFeign;
+import cn.aethli.thoth.feign.PELotteryFeign;
 import cn.aethli.thoth.repository.LotteryRepository;
 import cn.aethli.thoth.utils.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 public class DataGetTaskServiceImpl implements DataGetTaskService {
 
   @Autowired
-  private LotteryRequestFeign lotteryRequestFeign;
+  private PELotteryFeign PELotteryFeign;
   @Autowired
   private LotteryRepository lotteryRepository;
 
@@ -35,7 +35,7 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
       throws IOException {
     while (Integer.parseInt(startTerm) <= Integer.parseInt(endTerm)) {
       log.info(String.format("start with term=%s", startTerm));
-      String lottery = lotteryRequestFeign
+      String lottery = PELotteryFeign
           .getLottery(type, StringUtils.termParamsConvert(startTerm), num);
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode jsonNode = objectMapper.readTree(lottery);
