@@ -20,4 +20,30 @@ public class MData {
   List<Detail> details;
   @JsonProperty(value = "lottery")
   Lottery lottery;
+
+  /**
+   * json反序列化时将details设置到lottery里面,将lottery设置到details里面
+   *
+   * @param details
+   */
+  public void setDetails(List<Detail> details) {
+    if (this.lottery != null) {
+      this.lottery.setDetails(details);
+      this.details.forEach(i -> i.setLottery(this.lottery));
+    }
+    this.details = details;
+  }
+
+  /**
+   * json反序列化时将details设置到lottery里面,将lottery设置到details里面
+   *
+   * @param lottery
+   */
+  public void setLottery(Lottery lottery) {
+    this.lottery = lottery;
+    if (this.details != null && !this.details.isEmpty()) {
+      this.lottery.setDetails(this.details);
+      this.details.forEach(i -> i.setLottery(lottery));
+    }
+  }
 }

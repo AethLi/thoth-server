@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 @Table(name = "lottery")
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"openTime","details"})
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"openTime", "details"})
 public class Lottery {
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -49,10 +50,10 @@ public class Lottery {
   @Column(name = "l_type")
   @JsonProperty(value = "lType")
   private Integer lType;
-  @Column(name = "num_sequence")
+  @Transient
   @JsonProperty(value = "numSequence")
   private String numSequence;
-  @Transient
+  @Column(name = "num_sequence_pool")
   @JsonProperty(value = "numSequence_pool")
   private String numSequencePool;
   @Column(name = "number")
@@ -78,7 +79,7 @@ public class Lottery {
   @Transient
   @JsonProperty(value = "status")
   private Integer status;
-  @Column(name = "term",unique = true)
+  @Column(name = "term", unique = true)
   @JsonProperty(value = "term")
   private String term;
   @Column(name = "totalSales")
@@ -93,9 +94,23 @@ public class Lottery {
   @Transient
   @JsonProperty(value = "verify")
   private Integer verify;
-  @OneToMany(mappedBy = "lottery")
+  @OneToMany(mappedBy = "lottery",cascade = CascadeType.ALL)
   private List<Detail> details;
 
+  /**
+   * 去除空格
+   *
+   * @param number
+   */
+  public void setNumber(String number) {
+    this.number = number.replace(" ", "");
+  }
+
+  /**
+   * 将openTimeFmt1也反序列化到openTime
+   *
+   * @param openTimeFmt1
+   */
   public void setOpenTimeFmt1(String openTimeFmt1) {
     try {
       this.openTime = dateFormat.parse(openTimeFmt1);

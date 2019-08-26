@@ -1,7 +1,11 @@
 package cn.aethli.thoth.controller;
 
 import cn.aethli.thoth.model.ResponseModel;
+import cn.aethli.thoth.service.DataGetTaskService;
+import java.io.IOException;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,12 +19,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequestMapping("task")
 public class TaskScheduleCtrl {
 
+  @Autowired
+  private DataGetTaskService dataGetTaskService;
+
   @RequestMapping("dataGet")
-  public Object dataGet(@RequestBody Map<String, String> params) {
+  public Object dataGet(@RequestBody Map<String, String> params) throws IOException {
     if (params.get("password").equals("nviebrei")) {
+      dataGetTaskService
+          .getLotteries(params.get("type"), params.get("startTerm"), params.get("num"),
+              params.get("endTerm"));
       return new ResponseModel(ResponseModel.STATUS_OK, "task start");
     } else {
       return new ResponseModel(ResponseModel.STATUS_ERROR, "wrong password");
     }
+  }
+
+  @Scheduled(cron = "0 0 22 0 0 2,5,7 ")
+  public void qxcDataGetTask() throws IOException {
+    dataGetTaskService.getLotteries("8", "0", "1", "1");
   }
 }
