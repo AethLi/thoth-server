@@ -2,7 +2,7 @@ package cn.aethli.thoth.service;
 
 import cn.aethli.thoth.entity.MData;
 import cn.aethli.thoth.feign.PELotteryFeign;
-import cn.aethli.thoth.repository.LotteryRepository;
+import cn.aethli.thoth.repository.PELotteryRepository;
 import cn.aethli.thoth.utils.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,11 +27,11 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
   @Autowired
   private PELotteryFeign PELotteryFeign;
   @Autowired
-  private LotteryRepository lotteryRepository;
+  private PELotteryRepository PELotteryRepository;
 
   @Async
   @Override
-  public void getLotteries(String type, String startTerm, String num, String endTerm)
+  public void getPELotteries(String type, String startTerm, String num, String endTerm)
       throws IOException {
     while (Integer.parseInt(startTerm) <= Integer.parseInt(endTerm)) {
       log.info(String.format("start with term=%s", startTerm));
@@ -53,7 +53,7 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
       while (mdataJsonNodes.hasNext()) {
         thisMData = objectMapper.treeToValue(mdataJsonNodes.next(), MData.class);
         try {
-          lotteryRepository.save(thisMData.getLottery());
+          PELotteryRepository.save(thisMData.getLottery());
         } catch (Exception e) {
 //          log.info(e.getMessage());
           log.info(String.format("can not insert,term=%s", startTerm));

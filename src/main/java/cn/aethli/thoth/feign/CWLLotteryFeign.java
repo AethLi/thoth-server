@@ -1,7 +1,7 @@
 package cn.aethli.thoth.feign;
 
-import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +17,7 @@ public interface CWLLotteryFeign {
   /**
    * 福彩(这个请求需要请求头包含Referer)
    *
+   * @param referer:请求头中需要的参数，可为任意值
    * @param name:彩票种类:双色球(ssq),七乐彩(qlc),福彩3D(3d)
    * @param issueCount:多少期数
    * @param issueStart:开始期号
@@ -25,9 +26,9 @@ public interface CWLLotteryFeign {
    * @param dayEnd:结束期数
    * @return
    */
-  @Headers({"Referer: http://www.cwl.gov.cn"})
   @RequestMapping(value = "/cwl_admin/kjxx/findDrawNotice", method = RequestMethod.GET)
-  String getLottery(@RequestParam("name") String name,
+  String getLottery(@RequestHeader("Referer") String referer,
+      @RequestParam("name") String name,
       @RequestParam("issueCount") String issueCount,
       @RequestParam("issueStart") String issueStart,
       @RequestParam("issueEnd") String issueEnd,

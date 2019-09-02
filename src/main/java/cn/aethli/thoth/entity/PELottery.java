@@ -23,15 +23,15 @@ import org.hibernate.annotations.GenericGenerator;
  * @date: 2019-08-23 11:06
  **/
 @Data
-@Table(name = "lottery")
+@Table(name = "pe_lottery")
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"openTime", "details"})
-public class Lottery {
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"openTime", "peDetails"})
+public class PELottery {
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
   @Id
-  @Column(name = "lottery_id", length = 36)
+  @Column(name = "pe_lottery_id", length = 32)
   @GeneratedValue(generator = "system-uuid")
   @GenericGenerator(name = "system-uuid", strategy = "uuid.hex")
   private String id;
@@ -94,8 +94,8 @@ public class Lottery {
   @Transient
   @JsonProperty(value = "verify")
   private Integer verify;
-  @OneToMany(mappedBy = "lottery",cascade = CascadeType.ALL)
-  private List<Detail> details;
+  @OneToMany(mappedBy = "peLottery",cascade = CascadeType.ALL)
+  private List<PEDetail> peDetails;
 
   /**
    * 去除空格

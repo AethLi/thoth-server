@@ -10,5 +10,7 @@ import java.io.IOException;
  **/
 public interface DataGetTaskService {
 
-  void getLotteries(String type, String startTerm, String num, String endTerm) throws IOException;
+  void getPELotteries(String type, String startTerm, String num, String endTerm) throws IOException;
+
+  void getCWLLotteries(String type, String startTerm, String num, String endTerm);
 }
