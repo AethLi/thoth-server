@@ -18,13 +18,13 @@ import org.hibernate.annotations.GenericGenerator;
  * @date: 2019-08-23 11:02
  **/
 @Data
-@Table(name = "detail")
+@Table(name = "pe_detail")
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true,value = {"lottery"})
-public class Detail {
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"peLottery"})
+public class PEDetail {
 
   @Id
-  @Column(name = "detail_id", length = 36)
+  @Column(name = "pe_detail_id", length = 32)
   @GeneratedValue(generator = "system-uuid")
   @GenericGenerator(name = "system-uuid", strategy = "uuid.hex")
   private String id;
@@ -47,6 +47,6 @@ public class Detail {
   @JsonProperty(value = "sendPrize")
   private String sendPrize;
   @ManyToOne
-  @JoinColumn(name = "lottery_id")
-  private Lottery lottery;
+  @JoinColumn(name = "pe_lottery_id")
+  private PELottery peLottery;
 }

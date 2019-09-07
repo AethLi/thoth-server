@@ -22,11 +22,21 @@ public class TaskScheduleCtrl {
   @Autowired
   private DataGetTaskService dataGetTaskService;
 
+  /**
+   * @param params
+   * @return
+   * @throws IOException
+   */
   @RequestMapping("dataGet")
   public Object dataGet(@RequestBody Map<String, String> params) throws IOException {
     if (params.get("password").equals("nviebrei")) {
       dataGetTaskService
-          .getLotteries(params.get("type"), params.get("startTerm"), params.get("num"),
+          .getPELotteries(params.get("type"), params.get("startTerm"), params.get("num"),
+              params.get("endTerm"));
+      return new ResponseModel(ResponseModel.STATUS_OK, "task start");
+    } else if (params.get("password").equals("fbuwi")) {
+      dataGetTaskService
+          .getCWLLotteries(params.get("type"), params.get("startTerm"), params.get("num"),
               params.get("endTerm"));
       return new ResponseModel(ResponseModel.STATUS_OK, "task start");
     } else {
@@ -36,6 +46,6 @@ public class TaskScheduleCtrl {
 
   @Scheduled(cron = "0 0 22 0 0 2,5,7 ")
   public void qxcDataGetTask() throws IOException {
-    dataGetTaskService.getLotteries("8", "0", "1", "1");
+    dataGetTaskService.getPELotteries("8", "0", "1", "1");
   }
 }

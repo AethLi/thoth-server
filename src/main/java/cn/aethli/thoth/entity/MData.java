@@ -17,21 +17,21 @@ public class MData {
   @JsonProperty(value = "codeNumber")
   String[] codeNumber;
   @JsonProperty(value = "details")
-  List<Detail> details;
+  List<PEDetail> details;
   @JsonProperty(value = "lottery")
-  Lottery lottery;
+  PELottery lottery;
 
   /**
    * json反序列化时将details设置到lottery里面,将lottery设置到details里面
    *
    * @param details
    */
-  public void setDetails(List<Detail> details) {
-    if (this.lottery != null) {
-      this.lottery.setDetails(details);
-      this.details.forEach(i -> i.setLottery(this.lottery));
-    }
+  public void setDetails(List<PEDetail> details) {
     this.details = details;
+    if (this.lottery != null) {
+      this.lottery.setPeDetails(details);
+      this.details.forEach(i -> i.setPeLottery(this.lottery));
+    }
   }
 
   /**
@@ -39,11 +39,11 @@ public class MData {
    *
    * @param lottery
    */
-  public void setLottery(Lottery lottery) {
+  public void setLottery(PELottery lottery) {
     this.lottery = lottery;
     if (this.details != null && !this.details.isEmpty()) {
-      this.lottery.setDetails(this.details);
-      this.details.forEach(i -> i.setLottery(lottery));
+      this.lottery.setPeDetails(this.details);
+      this.details.forEach(i -> i.setPeLottery(lottery));
     }
   }
 }

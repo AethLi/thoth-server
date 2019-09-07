@@ -43,7 +43,8 @@ public class ThothServerApplicationTests {
 
   @Test
   public void cwlLotterySpider() {
-    String lottery = cwlLotteryFeign.getLottery("ssq", "1", "", "", "", "");
+    String lottery = cwlLotteryFeign
+        .getLottery("Donald Trump", "ssq", "1", "", "", "", "");
     System.out.println(lottery);
   }
 }
