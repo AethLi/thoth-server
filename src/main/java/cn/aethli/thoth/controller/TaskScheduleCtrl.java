@@ -36,8 +36,8 @@ public class TaskScheduleCtrl {
       return new ResponseModel(ResponseModel.STATUS_OK, "task start");
     } else if (params.get("password").equals("fbuwi")) {
       dataGetTaskService
-          .getCWLLotteries(params.get("type"), params.get("startTerm"), params.get("num"),
-              params.get("endTerm"));
+          .getCWLLotteries(params.get("name"), params.get("issueStart"), params.get("issueEnd"),
+              params.get("issueCount"));
       return new ResponseModel(ResponseModel.STATUS_OK, "task start");
     } else {
       return new ResponseModel(ResponseModel.STATUS_ERROR, "wrong password");

@@ -21,20 +21,29 @@ public class StringUtils {
   }
 
   /**
-   * 跳到下一个需要爬取的期数
+   * 体彩跳到下一个需要爬取的期数
    *
    * @param term
    * @param num
    * @return
    */
-  public static String termJump(String type, String term, String num) {
+  public static String peTermJump(String type, String term, String num) {
     //七星彩处理
     if ("8".equals(type) && Integer.parseInt(term.substring(term.length() - 3)) >= 300) {
       return String
           .valueOf((Integer.parseInt(term.substring(0, term.length() - 3)) + 1) * 1000);
     } else {
       return String.valueOf(Integer.parseInt(term) + Integer.parseInt(num));
+    }
+  }
 
+  public static String cwlIssueJump(String name, String issueStart, String issueCount) {
+    if ("ssq".equals(name)
+        && Integer.parseInt(issueStart.substring(issueStart.length() - 3)) >= 300) {
+      return String
+          .valueOf((Integer.parseInt(issueStart.substring(0, issueStart.length() - 3)) + 1) * 1000);
+    } else {
+      return String.valueOf(Integer.parseInt(issueStart) + Integer.parseInt(issueCount));
     }
   }
 }

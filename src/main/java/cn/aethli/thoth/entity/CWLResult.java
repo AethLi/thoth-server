@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,10 +28,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Slf4j
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"prizeGrades", "open_time"})
-@Table(name = "cwl_lottery")
+@Table(name = "cwl_lottery",uniqueConstraints = {@UniqueConstraint(columnNames = {"code","name"})})
 public class CWLResult {
 
-  public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd(日)");
+  public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
   @Id
   @Column(name = "cwl_lottery_id", length = 32)
@@ -40,7 +41,7 @@ public class CWLResult {
   @Column(name = "name", length = 15)
   @JsonProperty(value = "name")
   private String name;
-  @Column(name = "code", unique = true)
+  @Column(name = "code")
   @JsonProperty(value = "code")
   private String code;
   @Column(name = "details_link")
@@ -96,7 +97,7 @@ public class CWLResult {
 
   public void setDate(String date) {
     try {
-      this.openTime = dateFormat.parse(date);
+      this.openTime = dateFormat.parse(date.substring(0,10));
     } catch (ParseException e) {
 //      e.printStackTrace();
       log.error(e.getMessage());

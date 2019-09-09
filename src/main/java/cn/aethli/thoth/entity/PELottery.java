@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -23,7 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @date: 2019-08-23 11:06
  **/
 @Data
-@Table(name = "pe_lottery")
+@Table(name = "pe_lottery",uniqueConstraints = {@UniqueConstraint(columnNames = {"term","l_type"})})
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"openTime", "peDetails"})
 public class PELottery {
@@ -79,7 +80,7 @@ public class PELottery {
   @Transient
   @JsonProperty(value = "status")
   private Integer status;
-  @Column(name = "term", unique = true)
+  @Column(name = "term")
   @JsonProperty(value = "term")
   private String term;
   @Column(name = "totalSales")

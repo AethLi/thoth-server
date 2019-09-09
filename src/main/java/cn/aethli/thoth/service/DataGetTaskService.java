@@ -1,6 +1,5 @@
 package cn.aethli.thoth.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 
 /**
@@ -12,5 +11,5 @@ public interface DataGetTaskService {
 
   void getPELotteries(String type, String startTerm, String num, String endTerm) throws IOException;
 
-  void getCWLLotteries(String type, String startTerm, String num, String endTerm);
+    void getCWLLotteries(String name,String issueStart, String issueEnd, String issueCount);
 }
