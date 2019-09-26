@@ -1,4 +1,4 @@
-package cn.aethli.thoth.utils;
+package cn.aethli.thoth.common.utils;
 
 /**
  * @device: Hades

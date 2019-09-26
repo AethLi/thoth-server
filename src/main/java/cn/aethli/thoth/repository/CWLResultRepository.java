@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @device: Hades
  * @author: Termite
  * @date: 2019-09-09 09:43
- **/
-public interface CWLLotteryRepository extends JpaRepository<CWLResult, String>,
-    JpaSpecificationExecutor<CWLResult> {
-
-}
+ */
+public interface CWLResultRepository
+    extends JpaRepository<CWLResult, String>, JpaSpecificationExecutor<CWLResult> {}
