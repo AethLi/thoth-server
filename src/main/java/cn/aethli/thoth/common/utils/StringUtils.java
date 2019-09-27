@@ -1,5 +1,7 @@
 package cn.aethli.thoth.common.utils;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * @device: Hades
  * @author: Termite
@@ -37,6 +39,14 @@ public class StringUtils {
     }
   }
 
+  /**
+   * 福彩跳到下一期
+   *
+   * @param name
+   * @param issueStart
+   * @param issueCount
+   * @return
+   */
   public static String cwlIssueJump(String name, String issueStart, String issueCount) {
     if ("ssq".equals(name)
         && Integer.parseInt(issueStart.substring(issueStart.length() - 3)) >= 300) {
@@ -46,4 +56,9 @@ public class StringUtils {
       return String.valueOf(Integer.parseInt(issueStart) + Integer.parseInt(issueCount));
     }
   }
+
+  public static String gb2312ToUtf8(String res) throws UnsupportedEncodingException {
+    return new String(res.getBytes("gb2312"),"utf8");
+  }
+
 }

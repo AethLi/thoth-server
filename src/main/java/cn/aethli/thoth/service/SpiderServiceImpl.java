@@ -1,16 +1,13 @@
 package cn.aethli.thoth.service;
 
-import okhttp3.HttpUrl;
+import cn.aethli.thoth.common.utils.StringUtils;
+import java.io.IOException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * @device: Apollo
@@ -20,9 +17,9 @@ import java.util.List;
 @Service
 public class SpiderServiceImpl implements SpiderService {
 
-  @Autowired private OkHttpClient okHttpClient;
-
-  private static final String com500 = "kaijiang.500.com/shtml";
+  private static final String com500 = "https://kaijiang.500.com/shtml/";
+  @Autowired
+  private OkHttpClient okHttpClient;
 
   @Override
   @Async
@@ -33,14 +30,17 @@ public class SpiderServiceImpl implements SpiderService {
     url.append(term);
     url.append(".shtml");
     Request request = new Request.Builder().url(url.toString()).build();
-    Response response = null;
+    Response response;
     String result = null;
+    String s = null;
     try {
       response = okHttpClient.newCall(request).execute();
       result = response.body().string();
+      s = StringUtils.gb2312ToUtf8(result);
     } catch (IOException e) {
       e.printStackTrace();
     }
-    System.out.println(result);
+//    System.out.println(result);
+    System.out.println(s);
   }
 }

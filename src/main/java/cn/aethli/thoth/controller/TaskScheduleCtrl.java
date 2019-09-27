@@ -1,11 +1,11 @@
 package cn.aethli.thoth.controller;
 
+import cn.aethli.thoth.common.enums.ResponseStatus;
 import cn.aethli.thoth.model.ResponseModel;
 import cn.aethli.thoth.service.DataGetTaskService;
+import cn.aethli.thoth.service.SpiderService;
 import java.io.IOException;
 import java.util.Map;
-
-import cn.aethli.thoth.service.SpiderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequestMapping("task")
 public class TaskScheduleCtrl {
 
-  @Autowired private DataGetTaskService dataGetTaskService;
-  @Autowired private SpiderService spiderService;
+  @Autowired
+  private DataGetTaskService dataGetTaskService;
+  @Autowired
+  private SpiderService spiderService;
 
   /**
    * @param params
@@ -35,16 +37,16 @@ public class TaskScheduleCtrl {
     if (params.get("password").equals("nviebrei")) {
       dataGetTaskService.getPELotteries(
           params.get("type"), params.get("startTerm"), params.get("num"), params.get("endTerm"));
-      return new ResponseModel(ResponseModel.STATUS_OK, "task start");
+      return new ResponseModel(ResponseStatus.OK, "task start");
     } else if (params.get("password").equals("fbuwi")) {
       dataGetTaskService.getCWLLotteries(
           params.get("name"),
           params.get("issueStart"),
           params.get("issueEnd"),
           params.get("issueCount"));
-      return new ResponseModel(ResponseModel.STATUS_OK, "task start");
+      return new ResponseModel(ResponseStatus.OK, "task start");
     } else {
-      return new ResponseModel(ResponseModel.STATUS_ERROR, "wrong password");
+      return new ResponseModel(ResponseStatus.ERROR, "wrong password");
     }
   }
 
@@ -58,6 +60,6 @@ public class TaskScheduleCtrl {
     if (params.get("password").equals("sdfadf")) {
       spiderService.getCom500Data(params.get("type"), Integer.parseInt(params.get("term")));
     }
-    return new ResponseModel(ResponseModel.STATUS_OK, "task start");
+    return new ResponseModel(ResponseStatus.OK, "task start");
   }
 }

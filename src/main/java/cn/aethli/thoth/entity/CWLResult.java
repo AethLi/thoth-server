@@ -28,7 +28,8 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Slf4j
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"prizeGrades", "open_time"})
-@Table(name = "cwl_lottery",uniqueConstraints = {@UniqueConstraint(columnNames = {"code","name"})})
+@Table(name = "cwl_lottery", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"code", "name"})})
 public class CWLResult {
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -97,7 +98,7 @@ public class CWLResult {
 
   public void setDate(String date) {
     try {
-      this.openTime = dateFormat.parse(date.substring(0,10));
+      this.openTime = dateFormat.parse(date.substring(0, 10));
     } catch (ParseException e) {
 //      e.printStackTrace();
       log.error(e.getMessage());

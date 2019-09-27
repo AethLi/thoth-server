@@ -1,5 +1,6 @@
 package cn.aethli.thoth.model;
 
+import cn.aethli.thoth.common.enums.ResponseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,23 +8,20 @@ import lombok.Data;
 @AllArgsConstructor
 public class ResponseModel {
 
-  public static final int STATUS_OK = 0;
-  public static final int STATUS_FAIL = 1;
-  public static final int STATUS_ERROR = 2;
-  int status;
+  ResponseStatus status;
   String msg;
   Object data;
 
-  public ResponseModel(int status) {
+  public ResponseModel(ResponseStatus status) {
     this.status = status;
   }
 
-  public ResponseModel(int status, String msg) {
+  public ResponseModel(ResponseStatus status, String msg) {
     this.status = status;
     this.msg = msg;
   }
 
-  public ResponseModel(int status, Object data) {
+  public ResponseModel(ResponseStatus status, Object data) {
     this.status = status;
     this.data = data;
   }

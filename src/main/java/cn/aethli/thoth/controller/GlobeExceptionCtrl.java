@@ -1,5 +1,6 @@
 package cn.aethli.thoth.controller;
 
+import cn.aethli.thoth.common.enums.ResponseStatus;
 import cn.aethli.thoth.model.ResponseModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +25,6 @@ public class GlobeExceptionCtrl {
   public Object exceptionCatch(Exception e) {
     log.error(e.toString());
     e.printStackTrace();
-    return new ResponseModel(ResponseModel.STATUS_ERROR, e.getMessage());
+    return new ResponseModel(ResponseStatus.ERROR, e.getMessage());
   }
 }
