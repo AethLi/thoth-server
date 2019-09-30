@@ -30,12 +30,11 @@ public class ThothServerApplicationTests {
   public void peLotterySpider() {
     String lottery = peLotteryFeign.getLottery("8", "19081", "100");
     ObjectMapper objectMapper = new ObjectMapper();
-    MData m;
     try {
       JsonNode jsonNode = objectMapper.readTree(lottery);
       jsonNode = jsonNode.findParent("mdata");
       Iterator<JsonNode> mdata = jsonNode.findValue("mdata").elements();
-      m = objectMapper.treeToValue(mdata.next(), MData.class);
+      objectMapper.treeToValue(mdata.next(), MData.class);
     } catch (IOException e) {
       e.printStackTrace();
     }
