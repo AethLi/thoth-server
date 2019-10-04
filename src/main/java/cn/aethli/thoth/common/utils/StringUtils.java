@@ -1,6 +1,7 @@
 package cn.aethli.thoth.common.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @device: Hades
@@ -58,7 +59,7 @@ public class StringUtils {
   }
 
   public static String gb2312ToUtf8(String res) throws UnsupportedEncodingException {
-    return new String(res.getBytes("gb2312"),"utf8");
+    return new String(res.getBytes("gb2312"), StandardCharsets.UTF_8);
   }
 
 }
