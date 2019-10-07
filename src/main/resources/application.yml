@@ -1,0 +1,33 @@
+###datasource
+spring:
+  application:
+    name: thoth_data
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: mysqlpassword
+    url: jdbc:mysql://127.0.0.1/thoth_data?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&useSSL=true
+    username: root
+  ### Java Persistence Api
+  jpa:
+  # Specify the DBMS
+  database: MYSQL
+  # Hibernate ddl auto (create：启动会删除表重建, create-drop：结束程序时删表, update：第一次新建表后面更新，none, validate)
+  hibernate:
+    ddl-auto: update
+    properties:
+      hibernate:
+      # hibernate.dialect
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    # Show or not log for each sql query
+  show-sql: true
+###eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${center.server}/eureka/
+#server
+server:
+  port: 5656
+#center
+center:
+  server: http://localhost:5655

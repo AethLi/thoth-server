@@ -4,13 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @device: Apollo
@@ -25,8 +29,7 @@ public class SpiderServiceImpl implements SpiderService {
   @Autowired private OkHttpClient okHttpClient;
 
   @Override
-  @Async
-  public void getCom500Data(String type, int term) {
+  public Map<String, Object> getCom500Data(String type, int term) {
     StringBuilder url = new StringBuilder(com500);
     url.append(type);
     url.append("/");
@@ -36,6 +39,7 @@ public class SpiderServiceImpl implements SpiderService {
     log.info("connect to url:" + url.toString());
     Response response;
     int readSize = 0;
+    Map<String, Object> result = null;
     try {
       response = okHttpClient.newCall(request).execute();
       InputStream inputStream = response.body().byteStream();
@@ -44,9 +48,18 @@ public class SpiderServiceImpl implements SpiderService {
       while ((readSize = inputStream.read(bytes)) >= 0) {
         byteArrayOutputStream.write(bytes, 0, readSize);
       }
-      System.out.println(byteArrayOutputStream.toString("GBK"));
+      Document document = Jsoup.parse(byteArrayOutputStream.toString("GBK"));
+      result = new HashMap<>();
+      Elements kj_main01_right = document.getElementsByClass("kj_main01_right");
+      if (!kj_main01_right.isEmpty()){
+        Elements ball_box01 = kj_main01_right.get(0).getElementsByClass("ball_box01");
+
+      }
+      if (type == "ssq") {}
+
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return result;
   }
 }

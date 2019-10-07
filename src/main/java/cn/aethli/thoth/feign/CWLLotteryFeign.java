@@ -19,7 +19,7 @@ public interface CWLLotteryFeign {
    *
    * @param referer:请求头中需要的参数，可为任意值
    * @param name:彩票种类:双色球(ssq),七乐彩(qlc),福彩3D(3d)
-   * @param issueCount:多少期数
+//   * @param issueCount:多少期数，有bug
    * @param issueStart:开始期号
    * @param issueEnd:结束期号
    * @param dayStart:开始日期
@@ -29,7 +29,7 @@ public interface CWLLotteryFeign {
   @RequestMapping(value = "/cwl_admin/kjxx/findDrawNotice", method = RequestMethod.GET)
   String getLottery(@RequestHeader("Referer") String referer,
       @RequestParam("name") String name,
-      @RequestParam("issueCount") String issueCount,
+//      @RequestParam("issueCount") String issueCount,
       @RequestParam("issueStart") String issueStart,
       @RequestParam("issueEnd") String issueEnd,
       @RequestParam("dayStart") String dayStart,

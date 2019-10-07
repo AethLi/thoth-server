@@ -3,15 +3,15 @@ package cn.aethli.thoth.controller;
 import cn.aethli.thoth.common.enums.ResponseStatus;
 import cn.aethli.thoth.model.ResponseModel;
 import cn.aethli.thoth.service.DataGetTaskService;
-import cn.aethli.thoth.service.SpiderService;
-import java.io.IOException;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * @device: Hades
@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequestMapping("task")
 public class TaskScheduleCtrl {
 
-  @Autowired
-  private DataGetTaskService dataGetTaskService;
-  @Autowired
-  private SpiderService spiderService;
+  @Autowired private DataGetTaskService dataGetTaskService;
 
   /**
    * @param params
@@ -42,8 +39,7 @@ public class TaskScheduleCtrl {
       dataGetTaskService.getCWLLotteries(
           params.get("name"),
           params.get("issueStart"),
-          params.get("issueEnd"),
-          params.get("issueCount"));
+          params.get("issueEnd"));
       return new ResponseModel(ResponseStatus.OK, "task start");
     } else {
       return new ResponseModel(ResponseStatus.ERROR, "wrong password");
@@ -58,7 +54,8 @@ public class TaskScheduleCtrl {
   @RequestMapping(value = "getCom500Data", method = RequestMethod.POST)
   public Object getCom500Data(@RequestBody Map<String, String> params) {
     if (params.get("password").equals("sdfadf")) {
-      spiderService.getCom500Data(params.get("type"), Integer.parseInt(params.get("term")));
+      dataGetTaskService.getCom500Data(
+          params.get("type"), params.get("startTerm"), params.get("endTerm"));
     }
     return new ResponseModel(ResponseStatus.OK, "task start");
   }
