@@ -1,4 +1,7 @@
 package cn.aethli.thoth.service;
+
+import java.util.Map;
+
 /**
  * @device: Apollo
  * @author: 93162
@@ -6,5 +9,5 @@ package cn.aethli.thoth.service;
  */
 public interface SpiderService {
 
-  void getCom500Data(String type, int term);
+  Map<String,Object> getCom500Data(String type, int term);
 }
