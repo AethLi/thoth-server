@@ -10,6 +10,7 @@ import cn.aethli.thoth.repository.CWLResultRepository;
 import cn.aethli.thoth.repository.PELotteryRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -82,7 +83,12 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
   public void getCWLLotteries(String name, String issueStart, String issueEnd) {
     while (Integer.parseInt(issueStart) + 1 < Integer.parseInt(issueEnd)) {
       String lottery =
-          cwlLotteryFeign.getLottery("fakeBrowser", name, issueStart, issueEnd, null, null);
+              null;
+      try {
+        lottery = cwlLotteryFeign.getLottery("fakeBrowser", name, issueStart, issueEnd, null, null);
+      } catch (FeignException e) {
+        e.printStackTrace();
+      }
       try {
         CWLData cwlData = objectMapper.readValue(lottery, CWLData.class);
         for (CWLResult cwlResult : cwlData.getResult()) {
@@ -95,8 +101,9 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
         }
       } catch (IOException e) {
         e.printStackTrace();
+      } finally {
+        issueStart = StringUtils.cwlIssueJump(name, issueStart, "1");
       }
-      issueStart = StringUtils.cwlIssueJump(name, issueStart, "1");
       try {
         Thread.sleep(100);
       } catch (InterruptedException e) {
