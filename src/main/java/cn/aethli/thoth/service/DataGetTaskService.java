@@ -1,7 +1,5 @@
 package cn.aethli.thoth.service;
 
-import org.springframework.scheduling.annotation.Async;
-
 import java.io.IOException;
 
 /**
@@ -25,8 +23,9 @@ public interface DataGetTaskService {
    * @param name
    * @param issueStart
    * @param issueEnd
+   * @param issueCount
    */
-  void getCWLLotteries(String name, String issueStart, String issueEnd);
+  void getCWLLotteries(String name, String issueStart, String issueEnd, String issueCount);
 
   /**
    * 从kaijiang.500.com上获取数据

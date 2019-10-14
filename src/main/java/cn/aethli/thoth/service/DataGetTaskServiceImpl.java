@@ -10,15 +10,14 @@ import cn.aethli.thoth.repository.CWLResultRepository;
 import cn.aethli.thoth.repository.PELotteryRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @device: Hades
@@ -79,10 +78,11 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
 
   @Async
   @Override
-  public void getCWLLotteries(String name, String issueStart, String issueEnd) {
+  public void getCWLLotteries(String name, String issueStart, String issueEnd, String issueCount) {
     while (Integer.parseInt(issueStart) + 1 < Integer.parseInt(issueEnd)) {
       String lottery =
-          cwlLotteryFeign.getLottery("fakeBrowser", name, issueStart, issueEnd, null, null);
+          cwlLotteryFeign.getLottery(
+              "fakeBrowser", name, issueCount, issueStart, issueEnd, null, null);
       try {
         CWLData cwlData = objectMapper.readValue(lottery, CWLData.class);
         for (CWLResult cwlResult : cwlData.getResult()) {
@@ -96,7 +96,7 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      issueStart = StringUtils.cwlIssueJump(name, issueStart, "1");
+      issueStart = StringUtils.cwlIssueJump(name, issueStart, issueCount);
       try {
         Thread.sleep(100);
       } catch (InterruptedException e) {

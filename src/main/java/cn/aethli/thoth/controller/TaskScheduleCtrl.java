@@ -39,7 +39,8 @@ public class TaskScheduleCtrl {
       dataGetTaskService.getCWLLotteries(
           params.get("name"),
           params.get("issueStart"),
-          params.get("issueEnd"));
+          params.get("issueEnd"),
+          params.get("issueCount"));
       return new ResponseModel(ResponseStatus.OK, "task start");
     } else {
       return new ResponseModel(ResponseStatus.ERROR, "wrong password");

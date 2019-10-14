@@ -8,9 +8,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableFeignClients
 @EnableEurekaClient
-public class ThothServerApplication {
+public class ThothDataApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(ThothServerApplication.class, args);
+    SpringApplication.run(ThothDataApplication.class, args);
   }
 }
