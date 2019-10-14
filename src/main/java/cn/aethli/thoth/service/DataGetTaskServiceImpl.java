@@ -1,6 +1,7 @@
 package cn.aethli.thoth.service;
 
-import cn.aethli.thoth.common.utils.StringUtils;
+import cn.aethli.thoth.common.exception.RetryException;
+import cn.aethli.thoth.common.utils.TermUtils;
 import cn.aethli.thoth.entity.CWLData;
 import cn.aethli.thoth.entity.CWLResult;
 import cn.aethli.thoth.entity.MData;
@@ -10,10 +11,10 @@ import cn.aethli.thoth.repository.CWLResultRepository;
 import cn.aethli.thoth.repository.PELotteryRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
-import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -44,8 +45,7 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
       throws IOException {
     while (Integer.parseInt(startTerm) <= Integer.parseInt(endTerm)) {
       log.info(String.format("start with term=%s", startTerm));
-      String lottery =
-          PELotteryFeign.getLottery(type, StringUtils.termParamsConvert(startTerm), num);
+      String lottery = PELotteryFeign.getLottery(type, TermUtils.termParamsConvert(startTerm), num);
       JsonNode jsonNode = objectMapper.readTree(lottery);
       jsonNode = jsonNode.findParent("mdata");
       Iterator<JsonNode> mdataJsonNodes;
@@ -54,7 +54,7 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
       } catch (NullPointerException e) {
         //        log.info(e.getMessage());
         log.info(String.format("can not parse json data,term=%s", startTerm));
-        startTerm = StringUtils.peTermJump(type, startTerm, num);
+        startTerm = TermUtils.peTermJump(type, startTerm, num);
         continue;
       }
       MData thisMData;
@@ -67,7 +67,7 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
           log.info(String.format("can not insert,term=%s", startTerm));
         }
       }
-      startTerm = StringUtils.peTermJump(type, startTerm, num);
+      startTerm = TermUtils.peTermJump(type, startTerm, num);
       try {
         Thread.sleep(100);
       } catch (InterruptedException e) {
@@ -81,10 +81,11 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
   @Override
   public void getCWLLotteries(String name, String issueStart, String issueEnd, String issueCount) {
     while (Integer.parseInt(issueStart) + 1 < Integer.parseInt(issueEnd)) {
-      String lottery =
-              null;
+      String lottery = null;
       try {
-        lottery = cwlLotteryFeign.getLottery("fakeBrowser", name, issueStart, issueEnd, null, null);
+        lottery =
+            cwlLotteryFeign.getLottery(
+                "fakeBrowser", name, issueCount, issueStart, issueEnd, null, null);
       } catch (FeignException e) {
         e.printStackTrace();
       }
@@ -101,7 +102,7 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
       } catch (IOException e) {
         e.printStackTrace();
       } finally {
-        issueStart = StringUtils.cwlIssueJump(name, issueStart, "1");
+        issueStart = TermUtils.cwlIssueJump(name, issueStart, issueCount);
       }
       try {
         Thread.sleep(100);
@@ -113,14 +114,16 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
 
   @Async
   @Override
-  public void getCom500Data(String type, String startTerm, String endTerm) {
+  public void getCom500Data(String type, String startTerm, String endTerm) throws RetryException {
     int term = Integer.parseInt(startTerm);
     if (type.equals("ssq") || type.equals("qlc") || type.equals("3d")) {
       while (term < Integer.parseInt(endTerm)) {
         Map<String, Object> com500Data = spiderService.getCom500Data(type, term);
-        term = Integer.parseInt(StringUtils.cwlIssueJump(type, String.valueOf(term), "1"));
+        term = Integer.parseInt(TermUtils.cwlIssueJump(type, String.valueOf(term), "1"));
         if (com500Data == null || com500Data.isEmpty()) {
           continue;
+        }else {
+
         }
       }
     }

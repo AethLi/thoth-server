@@ -1,5 +1,6 @@
 package cn.aethli.thoth.service;
 
+import cn.aethli.thoth.common.exception.RetryException;
 import java.io.IOException;
 
 /**
@@ -32,6 +33,7 @@ public interface DataGetTaskService {
    * @param type
    * @param startTerm
    * @param endTerm
+   * @throws RetryException
    */
-  void getCom500Data(String type, String startTerm, String endTerm);
+  void getCom500Data(String type, String startTerm, String endTerm) throws RetryException;
 }

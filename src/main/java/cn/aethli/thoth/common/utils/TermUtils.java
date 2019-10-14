@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
  * @author: Termite
  * @date: 2019-08-26 13:58
  **/
-public class StringUtils {
+public class TermUtils {
 
   /**
    * 将term转换为请求所需五位数

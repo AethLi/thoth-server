@@ -13,7 +13,7 @@
     <artifactId>thoth_data</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>thoth data</name>
-    <description>data server for thoth project</description>
+    <description>data server for project thoth</description>
 
     <properties>
         <java.version>1.8</java.version>

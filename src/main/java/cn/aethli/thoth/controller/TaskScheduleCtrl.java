@@ -1,6 +1,7 @@
 package cn.aethli.thoth.controller;
 
 import cn.aethli.thoth.common.enums.ResponseStatus;
+import cn.aethli.thoth.common.exception.RetryException;
 import cn.aethli.thoth.model.ResponseModel;
 import cn.aethli.thoth.service.DataGetTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class TaskScheduleCtrl {
   }
 
   @RequestMapping(value = "getCom500Data", method = RequestMethod.POST)
-  public Object getCom500Data(@RequestBody Map<String, String> params) {
+  public Object getCom500Data(@RequestBody Map<String, String> params) throws RetryException {
     if (params.get("password").equals("sdfadf")) {
       dataGetTaskService.getCom500Data(
           params.get("type"), params.get("startTerm"), params.get("endTerm"));
