@@ -1,6 +1,8 @@
 package cn.aethli.thoth.service;
 
 import cn.aethli.thoth.common.exception.RetryException;
+import cn.aethli.thoth.entity.CWLResult;
+import cn.aethli.thoth.entity.Lottery;
 import java.util.Map;
 
 /**
@@ -10,5 +12,5 @@ import java.util.Map;
  */
 public interface SpiderService {
 
-  Map<String,Object> getCom500Data(String type, int term) throws RetryException;
+  Lottery getCom500Data(String type, int term) throws RetryException;
 }

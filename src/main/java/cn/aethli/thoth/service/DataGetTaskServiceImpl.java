@@ -4,7 +4,9 @@ import cn.aethli.thoth.common.exception.RetryException;
 import cn.aethli.thoth.common.utils.TermUtils;
 import cn.aethli.thoth.entity.CWLData;
 import cn.aethli.thoth.entity.CWLResult;
+import cn.aethli.thoth.entity.Lottery;
 import cn.aethli.thoth.entity.MData;
+import cn.aethli.thoth.entity.PELottery;
 import cn.aethli.thoth.feign.CWLLotteryFeign;
 import cn.aethli.thoth.feign.PELotteryFeign;
 import cn.aethli.thoth.repository.CWLResultRepository;
@@ -14,9 +16,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
@@ -83,15 +86,17 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
     while (Integer.parseInt(issueStart) + 1 < Integer.parseInt(issueEnd)) {
       String lottery = null;
       try {
+        String end=String.valueOf(Integer.parseInt(issueStart)+Integer.parseInt(issueCount==null?"1":issueCount));
         lottery =
             cwlLotteryFeign.getLottery(
-                "fakeBrowser", name, issueCount, issueStart, issueEnd, null, null);
+                "fakeBrowser", name, null, issueStart,end , null, null);
       } catch (FeignException e) {
         e.printStackTrace();
       }
       try {
         CWLData cwlData = objectMapper.readValue(lottery, CWLData.class);
         for (CWLResult cwlResult : cwlData.getResult()) {
+          cwlResult.getPrizeGrades().forEach(cwlPrizeGrade -> cwlPrizeGrade.setCwlResult(cwlResult));
           try {
             cwlResultRepository.save(cwlResult);
           } catch (Exception e) {
@@ -116,15 +121,25 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
   @Override
   public void getCom500Data(String type, String startTerm, String endTerm) throws RetryException {
     int term = Integer.parseInt(startTerm);
-    if (type.equals("ssq") || type.equals("qlc") || type.equals("3d")) {
-      while (term < Integer.parseInt(endTerm)) {
-        Map<String, Object> com500Data = spiderService.getCom500Data(type, term);
-        term = Integer.parseInt(TermUtils.cwlIssueJump(type, String.valueOf(term), "1"));
-        if (com500Data == null || com500Data.isEmpty()) {
-          continue;
-        }else {
-
+    while (term < Integer.parseInt(endTerm)) {
+      Lottery com500Data = spiderService.getCom500Data(type, term);
+      term = Integer.parseInt(TermUtils.cwlIssueJump(type, String.valueOf(term), "1"));
+      if (com500Data == null) {
+        continue;
+      } else if (com500Data instanceof CWLResult) {
+        CWLResult cwlResult = (CWLResult) com500Data;
+        try {
+          cwlResultRepository.save(cwlResult);
+        } catch (DataIntegrityViolationException e) {
+//          e.printStackTrace();
+          log.info(String.format("can not insert,issue=%s", String.valueOf(term)));
         }
+      } else if (com500Data instanceof PELottery) {
+      }
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
       }
     }
   }

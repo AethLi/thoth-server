@@ -27,15 +27,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "pe_lottery",uniqueConstraints = {@UniqueConstraint(columnNames = {"term","l_type"})})
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"openTime", "peDetails"})
-public class PELottery {
+public class PELottery extends Lottery {
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
-  @Id
-  @Column(name = "pe_lottery_id", length = 32)
-  @GeneratedValue(generator = "system-uuid")
-  @GenericGenerator(name = "system-uuid", strategy = "uuid.hex")
-  private String id;
   @Transient
   @JsonProperty(value = "drawNews")
   private String drawNews;

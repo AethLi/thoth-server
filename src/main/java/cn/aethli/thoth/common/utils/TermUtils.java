@@ -1,13 +1,10 @@
 package cn.aethli.thoth.common.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-
 /**
  * @device: Hades
  * @author: Termite
  * @date: 2019-08-26 13:58
- **/
+ */
 public class TermUtils {
 
   /**
@@ -31,10 +28,12 @@ public class TermUtils {
    * @return
    */
   public static String peTermJump(String type, String term, String num) {
-    //七星彩处理
+    if (num == null || num.isEmpty()) {
+      num = "1";
+    }
+    // 七星彩处理
     if ("8".equals(type) && Integer.parseInt(term.substring(term.length() - 3)) >= 300) {
-      return String
-          .valueOf((Integer.parseInt(term.substring(0, term.length() - 3)) + 1) * 1000);
+      return String.valueOf((Integer.parseInt(term.substring(0, term.length() - 3)) + 1) * 1000);
     } else {
       return String.valueOf(Integer.parseInt(term) + Integer.parseInt(num));
     }
@@ -49,13 +48,15 @@ public class TermUtils {
    * @return
    */
   public static String cwlIssueJump(String name, String issueStart, String issueCount) {
+    if (issueCount == null || issueCount.isEmpty()) {
+      issueCount = "1";
+    }
     if ("ssq".equals(name)
         && Integer.parseInt(issueStart.substring(issueStart.length() - 3)) >= 300) {
-      return String
-          .valueOf((Integer.parseInt(issueStart.substring(0, issueStart.length() - 3)) + 1) * 1000);
+      return String.valueOf(
+          (Integer.parseInt(issueStart.substring(0, issueStart.length() - 3)) + 1) * 1000);
     } else {
       return String.valueOf(Integer.parseInt(issueStart) + Integer.parseInt(issueCount));
     }
   }
-
 }

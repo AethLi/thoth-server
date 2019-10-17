@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.transaction.Transactional;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,15 +31,9 @@ import org.hibernate.annotations.GenericGenerator;
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"prizeGrades", "open_time"})
 @Table(name = "cwl_lottery", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"code", "name"})})
-public class CWLResult {
+public class CWLResult extends Lottery {
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-  @Id
-  @Column(name = "cwl_lottery_id", length = 32)
-  @GeneratedValue(generator = "system-uuid")
-  @GenericGenerator(name = "system-uuid", strategy = "uuid.hex")
-  private String id;
   @Column(name = "name", length = 15)
   @JsonProperty(value = "name")
   private String name;

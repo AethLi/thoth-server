@@ -24,18 +24,18 @@ import org.hibernate.annotations.GenericGenerator;
 public class CWLPrizeGrade {
 
   @Id
-  @Column(name = "cwl_prize_grade_id", length = 32)
+  @Column(name = "id", length = 32)
   @GeneratedValue(generator = "system-uuid")
   @GenericGenerator(name = "system-uuid", strategy = "uuid.hex")
   private String id;
   @Column(name = "type", length = 2)
   @JsonProperty(value = "type")
   private Integer type;
-  @Column(name = "typeNum", length = 10)
-  @JsonProperty(value = "typeNum")
+  @Column(name = "type_mum", length = 10)
+  @JsonProperty(value = "typenum")
   private String typeNum;
-  @Column(name = "typeMoney", length = 20)
-  @JsonProperty(value = "typeMoney")
+  @Column(name = "type_money", length = 20)
+  @JsonProperty(value = "typemoney")
   private String typeMoney;
   @ManyToOne
   @JoinColumn(name = "cwl_result_id")
