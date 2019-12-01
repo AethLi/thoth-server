@@ -13,8 +13,8 @@ public enum ResponseStatus {
   private int value;
 
   ResponseStatus(String desc, int value) {
-    this.desc = desc;
-    this.value = value;
+      this.desc = desc;
+      this.value = value;
   }
 
   public static ResponseStatus get(int value) {
