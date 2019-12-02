@@ -18,6 +18,6 @@ import org.springframework.stereotype.Repository;
 public interface PELotteryRepository
     extends JpaRepository<PELottery, String>, JpaSpecificationExecutor<PELottery> {
 
-  @Query("from PELottery p where p.l_type=:type")
+  @Query("FROM PELottery p WHERE p.lType=:type")
   List<PELottery> findByType(@Param("type") LotteryType type);
 }
