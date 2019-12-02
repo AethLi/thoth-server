@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -24,6 +25,16 @@ public class LotteryCtrl {
   public Object doGet(@RequestBody Map<String, String> params) {
     LotteryType type = LotteryType.get(Integer.parseInt(params.get("type")));
     lotteryService.getNewest(type);
+    switch (type) {
+      case QXC:
+        break;
+    }
+    return null;
+  }
+
+  @GetMapping(value = "approximate")
+  public Object approximate(@RequestParam int typeValue, @RequestParam String lotteryValue) {
+    LotteryType type = LotteryType.get(typeValue);
     switch (type) {
       case QXC:
         break;

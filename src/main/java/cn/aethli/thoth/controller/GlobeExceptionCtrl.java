@@ -31,7 +31,7 @@ public class GlobeExceptionCtrl {
 
   @ExceptionHandler(value = RetryException.class)
   public Object retryExceptionCatch(RetryException e) {
-    log.error("重试结束,未连接成功,url:%s", e.getUrl());
+    log.error("重试结束,未连接成功,url:{}", e.getUrl());
     return new ResponseModel(ResponseStatus.ERROR, e.getMessage());
   }
 }

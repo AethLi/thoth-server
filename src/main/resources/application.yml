@@ -20,14 +20,14 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       # Show or not log for each sql query
     show-sql: true
-###eureka
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${center.server}/eureka/
-#server
-server:
-  port: 5656
-#center
-center:
-  server: http://localhost:5655
+####eureka
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: ${center.server}/eureka/
+##server
+#server:
+#  port: 5656
+##center
+#center:
+#  server: http://localhost:5655
