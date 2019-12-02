@@ -26,6 +26,10 @@ public class LotteryCacheImpl implements LotteryCache {
     switch (type) {
       case QXC:
         peLotteryRepository.findByType(type);
+      case TD:
+      case QLC:
+      case SSQ:
+        cwlResultRepository.findByType(type.getDesc());
     }
     return null;
   }

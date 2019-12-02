@@ -9,15 +9,17 @@ import lombok.Data;
  * @device: Hades
  * @author: Termite
  * @date: 2019-08-23 10:53
- **/
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MData {
 
   @JsonProperty(value = "codeNumber")
   String[] codeNumber;
+
   @JsonProperty(value = "details")
   List<PEDetail> details;
+
   @JsonProperty(value = "lottery")
   PELottery lottery;
 

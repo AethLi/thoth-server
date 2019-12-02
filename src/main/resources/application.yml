@@ -9,6 +9,7 @@ spring:
     username: root
   ### Java Persistence Api
   jpa:
+    open-in-view: false
     # Specify the DBMS
     database: MYSQL
     # Hibernate ddl auto (create：启动会删除表重建, create-drop：结束程序时删表, update：第一次新建表后面更新，none, validate)

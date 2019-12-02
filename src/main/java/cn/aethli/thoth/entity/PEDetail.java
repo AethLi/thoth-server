@@ -25,8 +25,8 @@ public class PEDetail {
 
   @Id
   @Column(name = "id", length = 32)
-  @GeneratedValue(generator = "system-uuid")
-  @GenericGenerator(name = "system-uuid", strategy = "uuid.hex")
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
   private String id;
   @Column(name = "all_money")
   @JsonProperty(value = "allmoney")

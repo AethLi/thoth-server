@@ -15,6 +15,7 @@ public class LotteryServiceImpl implements LotteryService {
 
   @Override
   public List<Map<String, String>> getNewest(LotteryType type) {
+    //todo auto-generate
     return null;
   }
 }
