@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 public abstract class Lottery {
   @Id
-  @Column(name = "id", length = 32)
+  @Column(name = "id", length = 36)
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
   private String id;

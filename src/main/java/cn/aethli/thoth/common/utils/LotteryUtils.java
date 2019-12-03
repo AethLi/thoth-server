@@ -1,8 +1,10 @@
 package cn.aethli.thoth.common.utils;
 
+import cn.aethli.thoth.common.enums.LotteryExceptionType;
 import cn.aethli.thoth.common.enums.LotteryType;
 import cn.aethli.thoth.common.exception.LotteryException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,20 +13,20 @@ import java.util.List;
  * @date 2019-12-02 17:47
  */
 public class LotteryUtils {
-  public static final List<String> qxcPool;
+  public static final List<String> qxcOptional;
 
   static {
-    qxcPool = new ArrayList<>();
-    qxcPool.add("0");
-    qxcPool.add("1");
-    qxcPool.add("2");
-    qxcPool.add("3");
-    qxcPool.add("4");
-    qxcPool.add("5");
-    qxcPool.add("6");
-    qxcPool.add("7");
-    qxcPool.add("8");
-    qxcPool.add("9");
+    qxcOptional = new ArrayList<>();
+    qxcOptional.add("0");
+    qxcOptional.add("1");
+    qxcOptional.add("2");
+    qxcOptional.add("3");
+    qxcOptional.add("4");
+    qxcOptional.add("5");
+    qxcOptional.add("6");
+    qxcOptional.add("7");
+    qxcOptional.add("8");
+    qxcOptional.add("9");
   }
   /**
    * 根据类型判断格式是否正确
@@ -33,20 +35,27 @@ public class LotteryUtils {
    * @param lotteryValue
    * @return
    */
-  public static String[] lotteryResolve(LotteryType type, String lotteryValue)
+  public static List<String> lotteryResolve(LotteryType type, String lotteryValue)
       throws LotteryException {
-    String[] numbers = new String[0];
+    List<String> numbers = null;
     switch (type) {
       case QXC:
-        numbers = lotteryValue.split(",");
-        if (numbers.length > 7) {
-          throw new LotteryException();
+        numbers = Arrays.asList(lotteryValue.split(","));
+        if (numbers.size() > 7) {
+          throw new LotteryException(LotteryExceptionType.LENGTH);
         }
-        for (int i = 0; i < numbers.length; i++) {
-          if (!qxcPool.contains(numbers[i])) {
-            throw new LotteryException();
+        for (String number : numbers) {
+          if (!qxcOptional.contains(number)) {
+            throw new LotteryException(LotteryExceptionType.TYPE);
           }
         }
+        return numbers;
+      case TD:
+      case SSQ:
+      case QLC:
+        break;
+      default:
+        throw new LotteryException(LotteryExceptionType.TYPE);
     }
     return numbers;
   }

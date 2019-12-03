@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @RestControllerAdvice
 @RequestMapping("task")
-public class TaskScheduleCtrl {
+public class TaskScheduleController {
 
   @Autowired private DataGetTaskService dataGetTaskService;
 

@@ -8,12 +8,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Termite
  * @device Hades
  * @date 2019-12-02 16:36
  */
+@Service
 @CacheConfig(cacheNames = "lottery")
 public class LotteryCacheImpl implements LotteryCache {
 
@@ -25,7 +27,7 @@ public class LotteryCacheImpl implements LotteryCache {
   public List<Lottery> getLottery(LotteryType type) {
     switch (type) {
       case QXC:
-        peLotteryRepository.findByType(type);
+        peLotteryRepository.findByType("8");
       case TD:
       case QLC:
       case SSQ:

@@ -25,4 +25,8 @@ public interface PELotteryFeign {
   String getLottery(@RequestParam("_ltype") String _ltype,
       @RequestParam("_term") String _term,
       @RequestParam("_num") String _num);
+
+  @RequestMapping(value = "/api/mlottery_kj_detail.jspx", method = RequestMethod.GET)
+  String getLottery(@RequestParam("_ltype") String type,
+      @RequestParam("_num") String _num);
 }

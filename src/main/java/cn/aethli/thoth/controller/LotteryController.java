@@ -4,6 +4,7 @@ import cn.aethli.thoth.common.enums.LotteryType;
 import cn.aethli.thoth.common.exception.LotteryException;
 import cn.aethli.thoth.common.utils.LotteryUtils;
 import cn.aethli.thoth.service.LotteryService;
+import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 @RequestMapping("lottery")
-public class LotteryCtrl {
+public class LotteryController {
 
   @Autowired private LotteryService lotteryService;
 
@@ -42,7 +43,8 @@ public class LotteryCtrl {
     switch (type) {
       case QXC:
         try {
-          LotteryUtils.lotteryResolve(LotteryType.QXC, lotteryValue);
+          List<String> lotteryValues = LotteryUtils.lotteryResolve(LotteryType.QXC, lotteryValue);
+          lotteryService.compare(type, lotteryValues);
         } catch (LotteryException e) {
           log.error(e.getMessage(), e);
         }

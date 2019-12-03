@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @Slf4j
 @RestControllerAdvice
-public class GlobeExceptionCtrl {
+public class GlobeExceptionController {
 
   /**
    * 全局所有controller默认异常处理
@@ -29,6 +29,12 @@ public class GlobeExceptionCtrl {
     return new ResponseModel(ResponseStatus.ERROR, e.getMessage());
   }
 
+  /**
+   * 重试异常
+   *
+   * @param e
+   * @return
+   */
   @ExceptionHandler(value = RetryException.class)
   public Object retryExceptionCatch(RetryException e) {
     log.error("重试结束,未连接成功,url:{}", e.getUrl());

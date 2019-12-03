@@ -11,6 +11,7 @@ import java.io.IOException;
 public interface DataGetTaskService {
   /**
    * 从体彩官网获取数据
+   *
    * @param type 种类
    * @param startTerm
    * @param num
@@ -21,6 +22,7 @@ public interface DataGetTaskService {
 
   /**
    * 从福彩官网获取数据
+   *
    * @param name
    * @param issueStart
    * @param issueEnd
@@ -30,10 +32,19 @@ public interface DataGetTaskService {
 
   /**
    * 从kaijiang.500.com上获取数据
+   *
    * @param type
    * @param startTerm
    * @param endTerm
    * @throws RetryException
    */
   void getCom500Data(String type, String startTerm, String endTerm) throws RetryException;
+
+  /**
+   * 请求一次官网，获取最新的期数
+   *
+   * @param ssq
+   * @return
+   */
+  String getPELotteryThisTerm(String ssq);
 }
