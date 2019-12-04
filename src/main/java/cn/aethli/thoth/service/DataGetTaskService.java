@@ -1,6 +1,8 @@
 package cn.aethli.thoth.service;
 
+import cn.aethli.thoth.common.enums.LotteryType;
 import cn.aethli.thoth.common.exception.RetryException;
+import cn.aethli.thoth.dto.Lottery;
 import java.io.IOException;
 
 /**
@@ -46,5 +48,5 @@ public interface DataGetTaskService {
    * @param ssq
    * @return
    */
-  String getPELotteryThisTerm(String ssq);
+  Lottery getPELotteryThisTerm(LotteryType type);
 }

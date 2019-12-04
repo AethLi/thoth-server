@@ -28,18 +28,20 @@ public class DataVersion {
   @Column(name = "version", nullable = false)
   private String version;
 
-  @Column(name = "create_dt", nullable = false)
-  private Date createDt;
+  @Column(name = "update_dt", nullable = false)
+  private Date updateDt;
 
   @Column(name = "type", nullable = false)
   private VersionType type;
 
   public DataVersion() {
-    createDt = new Date();
+    // 默认为1时间
+    updateDt = new Date(946656000000L);
   }
 
   public DataVersion(String version, VersionType type) {
-    createDt = new Date();
+    // 默认为1时间
+    updateDt = new Date(946656000000L);
     this.version = version;
     this.type = type;
   }

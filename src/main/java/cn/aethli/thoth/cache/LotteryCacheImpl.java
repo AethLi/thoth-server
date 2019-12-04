@@ -25,14 +25,13 @@ public class LotteryCacheImpl implements LotteryCache {
   @CachePut(cacheNames = "lottery", key = "type.value")
   @Override
   public List<Lottery> getLottery(LotteryType type) {
-    switch (type) {
-      case QXC:
-        peLotteryRepository.findByType("8");
-      case TD:
-      case QLC:
-      case SSQ:
-        cwlResultRepository.findByType(type.getDesc());
-    }
+//    switch (type) {
+//        case QXC:
+//        case TD:
+//        case QLC:
+//        case SSQ:
+//          cwlResultRepository.findByType(type.getDesc());
+//    }
     return null;
   }
 }

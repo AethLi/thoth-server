@@ -1,15 +1,24 @@
 package cn.aethli.thoth.config;
 
+import cn.aethli.thoth.common.enums.LotteryType;
+import cn.aethli.thoth.common.enums.VersionType;
+import cn.aethli.thoth.common.exception.LotteryException;
+import cn.aethli.thoth.common.utils.LotteryUtils;
+import cn.aethli.thoth.dto.Lottery;
+import cn.aethli.thoth.entity.DataVersion;
 import cn.aethli.thoth.entity.PELottery;
+import cn.aethli.thoth.repository.DataVersionRepository;
 import cn.aethli.thoth.repository.PELotteryRepository;
 import cn.aethli.thoth.service.DataGetTaskService;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,13 +27,14 @@ import org.springframework.stereotype.Component;
  * @date 2019-11-21 09:37
  */
 @Order(1)
+@EnableAsync
 @Component
+@Slf4j
 public class DataInitializationRunner implements CommandLineRunner {
-
-  private static final Logger LOG = LoggerFactory.getLogger(DataInitializationRunner.class);
 
   @Autowired private DataGetTaskService dataGetTaskService;
   @Autowired private PELotteryRepository peLotteryRepository;
+  @Autowired private DataVersionRepository dataVersionRepository;
 
   @Override
   public void run(String... args) {
@@ -32,13 +42,33 @@ public class DataInitializationRunner implements CommandLineRunner {
     cwlDataInitialization();
   }
 
+  @Async
   private void peDataInitialization() {
     // 七星彩
-    String endTerm = dataGetTaskService.getPELotteryThisTerm("8");
-    String typeString = "8";
-    List<PELottery> allLottery = peLotteryRepository.findByType(typeString);
+    Lottery lastLottery = dataGetTaskService.getPELotteryThisTerm(LotteryType.QXC);
+    DataVersion version =
+        dataVersionRepository.findByType(VersionType.QXC_UPDATE).orElseGet(DataVersion::new);
+    version.setType(VersionType.QXC_UPDATE);
+    version.setVersion(VersionType.QXC_UPDATE.getDesc());
+    List<PELottery> allLottery =
+        peLotteryRepository.findByType(Integer.valueOf(LotteryType.QXC.getParam()));
+    if (!allLottery.isEmpty()) {
+      Date openTime = allLottery.get(0).getOpenTime();
+      if (openTime.after(version.getUpdateDt())) {
+        String offlineTerm = "0";
+        try {
+          offlineTerm = LotteryUtils.date2Term(version.getUpdateDt(), LotteryType.QXC);
+        } catch (LotteryException e) {
+          log.error(e.getMessage(), e);
+          // todo 异常处理
+          System.exit(0);
+        }
+        if (Integer.parseInt(offlineTerm) < Integer.parseInt(allLottery.get(0).getTerm())) {}
+      }
+    }
     try {
-      dataGetTaskService.getPELotteries(typeString, "4000", "50", endTerm);
+      dataGetTaskService.getPELotteries(
+          LotteryType.QXC.getParam(), "4000", "50", lastLottery.getTerm());
     } catch (IOException e) {
       e.printStackTrace();
     }

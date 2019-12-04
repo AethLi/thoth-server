@@ -1,5 +1,6 @@
 package cn.aethli.thoth.service;
 
+import cn.aethli.thoth.common.enums.LotteryType;
 import cn.aethli.thoth.common.exception.RetryException;
 import cn.aethli.thoth.common.utils.TermUtils;
 import cn.aethli.thoth.entity.CWLData;
@@ -144,8 +145,8 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
   }
 
   @Override
-  public String getPELotteryThisTerm(String type) {
-    String lottery = peLotteryFeign.getLottery(type,"1");
+  public cn.aethli.thoth.dto.Lottery getPELotteryThisTerm(LotteryType type) {
+    String lottery = peLotteryFeign.getLottery(type.getParam(), "1");
     JsonNode jsonNode = null;
     try {
       jsonNode = objectMapper.readTree(lottery);
@@ -156,7 +157,11 @@ public class DataGetTaskServiceImpl implements DataGetTaskService {
       if (mdataJsonNodes.hasNext()) {
         thisMData = objectMapper.treeToValue(mdataJsonNodes.next(), MData.class);
         if (thisMData != null) {
-          return thisMData.getLottery().getTerm();
+          cn.aethli.thoth.dto.Lottery result = new cn.aethli.thoth.dto.Lottery();
+          result.setDate(thisMData.getLottery().getOpenTime());
+          result.setTerm(thisMData.getLottery().getTerm());
+          result.setType(LotteryType.get(String.valueOf(thisMData.getLottery().getLType())));
+          return result;
         }
       }
     } catch (IOException e) {

@@ -5,6 +5,8 @@ import cn.aethli.thoth.common.enums.LotteryType;
 import cn.aethli.thoth.common.exception.LotteryException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +37,7 @@ public class LotteryUtils {
    * @param lotteryValue
    * @return
    */
-  public static List<String> lotteryResolve(LotteryType type, String lotteryValue)
+  public static List<String> resolve(LotteryType type, String lotteryValue)
       throws LotteryException {
     List<String> numbers = null;
     switch (type) {
@@ -53,10 +55,52 @@ public class LotteryUtils {
       case TD:
       case SSQ:
       case QLC:
-        break;
       default:
         throw new LotteryException(LotteryExceptionType.TYPE);
     }
-    return numbers;
+  }
+
+  /**
+   * 根据日期获取期号
+   *
+   * @param date
+   * @param type
+   * @return
+   */
+  public static String date2Term(Date date, LotteryType type) throws LotteryException {
+    String term = "";
+    date = new Date(1547481600000L);
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    switch (type) {
+      case QXC:
+        Calendar firstDay = Calendar.getInstance();
+        firstDay.set(Calendar.DAY_OF_YEAR, 0);
+        int baseTerm = Integer.parseInt(String.valueOf(calendar.get(Calendar.YEAR)).substring(2));
+        int weekCount = calendar.get(Calendar.WEEK_OF_YEAR);
+        int offset = 0;
+        if (firstDay.get(Calendar.DAY_OF_WEEK) > Calendar.SUNDAY) {
+          offset += 1;
+        } else if (firstDay.get(Calendar.DAY_OF_WEEK) > Calendar.TUESDAY) {
+          offset += 2;
+        } else if (firstDay.get(Calendar.DAY_OF_WEEK) > Calendar.FRIDAY) {
+          offset += 3;
+        }
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        if (dayOfWeek < Calendar.SUNDAY) {
+          return String.valueOf(baseTerm * 1000 + weekCount * 3 + 2 - offset);
+        } else if (dayOfWeek < Calendar.TUESDAY) {
+          return String.valueOf(baseTerm * 1000 + weekCount * 3 - offset);
+        } else if (dayOfWeek < Calendar.FRIDAY) {
+          return String.valueOf(baseTerm * 1000 + weekCount * 3 + 1 - offset);
+        } else {
+          return String.valueOf(baseTerm * 1000 + weekCount * 3 + 3 - offset);
+        }
+      case QLC:
+      case SSQ:
+      case TD:
+      default:
+        throw new LotteryException(LotteryExceptionType.TYPE);
+    }
   }
 }

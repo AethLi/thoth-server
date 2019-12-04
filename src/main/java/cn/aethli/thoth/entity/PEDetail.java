@@ -16,11 +16,13 @@ import org.hibernate.annotations.GenericGenerator;
  * @device: Hades
  * @author: Termite
  * @date: 2019-08-23 11:02
- **/
+ */
 @Data
 @Table(name = "pe_detail")
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true, value = {"peLottery"})
+@JsonIgnoreProperties(
+    ignoreUnknown = true,
+    value = {"peLottery"})
 public class PEDetail {
 
   @Id
@@ -28,24 +30,31 @@ public class PEDetail {
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
   private String id;
+
   @Column(name = "all_money")
   @JsonProperty(value = "allmoney")
   private String allMoney;
+
   @Column(name = "level")
   @JsonProperty(value = "level")
   private String level;
+
   @Column(name = "money")
   @JsonProperty(value = "money")
   private String money;
+
   @Column(name = "num")
   @JsonProperty(value = "num")
   private Integer num;
+
   @Column(name = "piece")
   @JsonProperty(value = "piece")
   private String piece;
+
   @Column(name = "sendPrize")
   @JsonProperty(value = "sendPrize")
   private String sendPrize;
+
   @ManyToOne
   @JoinColumn(name = "pe_lottery_id")
   private PELottery peLottery;

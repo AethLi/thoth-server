@@ -19,6 +19,6 @@ public interface PELotteryRepository
     extends JpaRepository<PELottery, String>, JpaSpecificationExecutor<PELottery> {
 
   @Cacheable
-  @Query("FROM PELottery p WHERE p.lType=:type sorted by openTime desc")
-  List<PELottery> findByType(@Param("type") String type);
+  @Query("FROM PELottery p WHERE p.lType=:type order by openTime desc")
+  List<PELottery> findByType(@Param("type") Integer type);
 }

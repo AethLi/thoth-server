@@ -25,14 +25,9 @@ public class Lottery {
   private LotteryType type;
 
   @JsonProperty("date")
-  private Date checkDate;
+  private Date date;
 
   private int differentCount = 0;
-
-  public Lottery() {
-    super();
-    checkDate = new Date();
-  }
 
   public boolean moreSimilarThan(Lottery competitor, Lottery sample) {
     char[] currentChars = values.toCharArray();

@@ -43,7 +43,7 @@ public class LotteryController {
     switch (type) {
       case QXC:
         try {
-          List<String> lotteryValues = LotteryUtils.lotteryResolve(LotteryType.QXC, lotteryValue);
+          List<String> lotteryValues = LotteryUtils.resolve(LotteryType.QXC, lotteryValue);
           lotteryService.compare(type, lotteryValues);
         } catch (LotteryException e) {
           log.error(e.getMessage(), e);
