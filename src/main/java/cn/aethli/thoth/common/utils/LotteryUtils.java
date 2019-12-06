@@ -68,34 +68,38 @@ public class LotteryUtils {
    * @return
    */
   public static String date2Term(Date date, LotteryType type) throws LotteryException {
-    String term = "";
-    date = new Date(1547481600000L);
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(date);
+    date = new Date(1549900800000L);
+    Calendar currentCal = Calendar.getInstance();
+    currentCal.setTime(date);
     switch (type) {
       case QXC:
-        Calendar firstDay = Calendar.getInstance();
-        firstDay.set(Calendar.DAY_OF_YEAR, 0);
-        int baseTerm = Integer.parseInt(String.valueOf(calendar.get(Calendar.YEAR)).substring(2));
-        int weekCount = calendar.get(Calendar.WEEK_OF_YEAR);
-        int offset = 0;
-        if (firstDay.get(Calendar.DAY_OF_WEEK) > Calendar.SUNDAY) {
-          offset += 1;
-        } else if (firstDay.get(Calendar.DAY_OF_WEEK) > Calendar.TUESDAY) {
+        Calendar firstDayOfYear = Calendar.getInstance();
+        firstDayOfYear.set(Calendar.DAY_OF_YEAR, 0);
+        int baseTerm = Integer.parseInt(String.valueOf(currentCal.get(Calendar.YEAR)).substring(2));
+        int weekCount = currentCal.get(Calendar.WEEK_OF_YEAR);
+        weekCount -= 1;
+        int offsetDay = firstDayOfYear.get(Calendar.DAY_OF_WEEK);
+        int offset = 1;
+        if (offsetDay == Calendar.SUNDAY) {
+          offset -= 2;
+        } else if (offsetDay > Calendar.SUNDAY && offsetDay <= Calendar.TUESDAY) {
+
+        } else if (offsetDay > Calendar.TUESDAY && offsetDay <= Calendar.FRIDAY) {
+          offset -= 1;
+        } else if (offsetDay > Calendar.FRIDAY) {
+          offset -= 2;
+        }
+        offsetDay = currentCal.get(Calendar.DAY_OF_WEEK);
+        if (offsetDay == Calendar.SUNDAY) {
           offset += 2;
-        } else if (firstDay.get(Calendar.DAY_OF_WEEK) > Calendar.FRIDAY) {
-          offset += 3;
+        } else if (offsetDay > Calendar.SUNDAY && offsetDay <= Calendar.TUESDAY) {
+
+        } else if (offsetDay > Calendar.TUESDAY && offsetDay <= Calendar.FRIDAY) {
+          offset += 1;
+        } else if (offsetDay > Calendar.FRIDAY) {
+          offset += 2;
         }
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek < Calendar.SUNDAY) {
-          return String.valueOf(baseTerm * 1000 + weekCount * 3 + 2 - offset);
-        } else if (dayOfWeek < Calendar.TUESDAY) {
-          return String.valueOf(baseTerm * 1000 + weekCount * 3 - offset);
-        } else if (dayOfWeek < Calendar.FRIDAY) {
-          return String.valueOf(baseTerm * 1000 + weekCount * 3 + 1 - offset);
-        } else {
-          return String.valueOf(baseTerm * 1000 + weekCount * 3 + 3 - offset);
-        }
+        return String.valueOf(baseTerm * 1000 + weekCount * 3 + offset);
       case QLC:
       case SSQ:
       case TD:
