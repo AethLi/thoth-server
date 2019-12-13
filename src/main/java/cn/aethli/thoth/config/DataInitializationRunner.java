@@ -11,8 +11,9 @@ import cn.aethli.thoth.repository.DataVersionRepository;
 import cn.aethli.thoth.repository.PELotteryRepository;
 import cn.aethli.thoth.service.DataGetTaskService;
 import java.io.IOException;
+import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.List;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -43,27 +44,31 @@ public class DataInitializationRunner implements CommandLineRunner {
   }
 
   @Async
-  private void peDataInitialization() {
+  void peDataInitialization() {
     // 七星彩
     Lottery lastLottery = dataGetTaskService.getPELotteryThisTerm(LotteryType.QXC);
     DataVersion version =
         dataVersionRepository.findByType(VersionType.QXC_UPDATE).orElseGet(DataVersion::new);
     version.setType(VersionType.QXC_UPDATE);
     version.setVersion(VersionType.QXC_UPDATE.getDesc());
-    List<PELottery> allLottery =
-        peLotteryRepository.findByType(Integer.valueOf(LotteryType.QXC.getParam()));
-    if (!allLottery.isEmpty()) {
-      Date openTime = allLottery.get(0).getOpenTime();
-      if (openTime.after(version.getUpdateDt())) {
+    Optional<PELottery> peLotteryOptional =
+        peLotteryRepository.findTopByOpenTimeAndLType(Integer.valueOf(LotteryType.QXC.getParam()));
+    if (peLotteryOptional.isPresent()) {
+      Date openTime = peLotteryOptional.get().getOpenTime();
+      if (openTime.after(
+          Date.from(version.getUpdateDt().atStartOfDay(ZoneOffset.ofHours(8)).toInstant()))) {
         String offlineTerm = "0";
         try {
-          offlineTerm = LotteryUtils.date2Term(version.getUpdateDt(), LotteryType.QXC);
+          offlineTerm =
+              LotteryUtils.date2Term(
+                  Date.from(version.getUpdateDt().atStartOfDay(ZoneOffset.ofHours(8)).toInstant()),
+                  LotteryType.QXC);
         } catch (LotteryException e) {
           log.error(e.getMessage(), e);
           // todo 异常处理
           System.exit(0);
         }
-        if (Integer.parseInt(offlineTerm) < Integer.parseInt(allLottery.get(0).getTerm())) {}
+        if (Integer.parseInt(offlineTerm) < Integer.parseInt(peLotteryOptional.get().getTerm())) {}
       }
     }
     try {

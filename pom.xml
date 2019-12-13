@@ -47,6 +47,11 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <artifactId>lunar-date</artifactId>
+      <groupId>cn.aethli</groupId>
+      <version>0.1.1</version>
+    </dependency>
+    <dependency>
       <artifactId>spring-boot-starter-test</artifactId>
       <groupId>org.springframework.boot</groupId>
       <scope>test</scope>
@@ -56,7 +61,6 @@
       <artifactId>spring-boot-starter-cache</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
     <dependency>
       <artifactId>jsoup</artifactId>
@@ -96,7 +100,6 @@
     <java.version>1.8</java.version>
     <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
   </properties>
-
   <version>0.0.1-SNAPSHOT</version>
 
 </project>

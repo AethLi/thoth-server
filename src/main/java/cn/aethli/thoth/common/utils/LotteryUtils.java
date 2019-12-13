@@ -68,7 +68,6 @@ public class LotteryUtils {
    * @return
    */
   public static String date2Term(Date date, LotteryType type) throws LotteryException {
-    date = new Date(1549900800000L);
     Calendar currentCal = Calendar.getInstance();
     currentCal.setTime(date);
     switch (type) {

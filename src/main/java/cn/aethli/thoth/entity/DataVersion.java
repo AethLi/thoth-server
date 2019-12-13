@@ -1,7 +1,7 @@
 package cn.aethli.thoth.entity;
 
 import cn.aethli.thoth.common.enums.VersionType;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,19 +29,15 @@ public class DataVersion {
   private String version;
 
   @Column(name = "update_dt", nullable = false)
-  private Date updateDt;
+  private LocalDate updateDt;
 
   @Column(name = "type", nullable = false)
   private VersionType type;
 
   public DataVersion() {
-    // 默认为1时间
-    updateDt = new Date(946656000000L);
   }
 
   public DataVersion(String version, VersionType type) {
-    // 默认为1时间
-    updateDt = new Date(946656000000L);
     this.version = version;
     this.type = type;
   }

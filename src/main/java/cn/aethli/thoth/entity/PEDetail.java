@@ -51,7 +51,7 @@ public class PEDetail {
   @JsonProperty(value = "piece")
   private String piece;
 
-  @Column(name = "sendPrize")
+  @Column(name = "send_prize")
   @JsonProperty(value = "sendPrize")
   private String sendPrize;
 
