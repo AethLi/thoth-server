@@ -2,7 +2,7 @@ package cn.aethli.thoth.dto;
 
 import cn.aethli.thoth.common.enums.LotteryType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Date;
+import java.time.LocalDate;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +25,7 @@ public class Lottery {
   private LotteryType type;
 
   @JsonProperty("date")
-  private Date date;
+  private LocalDate date;
 
   private int differentCount = 0;
 

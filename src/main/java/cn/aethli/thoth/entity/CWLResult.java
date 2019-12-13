@@ -2,9 +2,9 @@ package cn.aethli.thoth.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,7 +32,8 @@ import lombok.extern.slf4j.Slf4j;
     uniqueConstraints = {@UniqueConstraint(columnNames = {"code", "name"})})
 public class CWLResult extends Lottery {
 
-  public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  public static final DateTimeFormatter DATE_TIME_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   @Column(name = "name", length = 15)
   @JsonProperty(value = "name")
@@ -107,12 +108,12 @@ public class CWLResult extends Lottery {
   private List<CWLPrizeGrade> prizeGrades;
 
   @Column(name = "open_time")
-  private Date openTime;
+  private LocalDate openTime;
 
   public void setDate(String date) {
     try {
-      this.openTime = dateFormat.parse(date.substring(0, 10));
-    } catch (ParseException e) {
+      this.openTime = LocalDate.parse(date, DATE_TIME_FORMATTER);
+    } catch (DateTimeParseException e) {
       //      e.printStackTrace();
       log.error(e.getMessage());
     }

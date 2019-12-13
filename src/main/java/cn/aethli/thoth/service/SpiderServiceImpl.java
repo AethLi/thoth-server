@@ -8,10 +8,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -37,6 +37,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SpiderServiceImpl implements SpiderService {
 
+  public static final DateTimeFormatter DATE_TIME_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyy年MM月dd日");
   private static final int retryTimes = 3;
   private static final String com500 = "https://kaijiang.500.com/shtml/";
   @Autowired private OkHttpClient okHttpClient;
@@ -45,7 +47,8 @@ public class SpiderServiceImpl implements SpiderService {
     StringBuilder url = new StringBuilder(com500);
     url.append(type);
     url.append("/");
-    url.append(String.valueOf(term).length() == 4 ? "0" + term : term);
+    url.append(String.valueOf(term).length() == 4 ? "0" : "");
+    url.append(term);
     url.append(".shtml");
     Request request = new Request.Builder().url(url.toString()).build();
     if (retryCount >= retryTimes) {
@@ -70,7 +73,7 @@ public class SpiderServiceImpl implements SpiderService {
         byteArrayOutputStream.write(bytes, 0, readSize);
       }
       Document document = Jsoup.parse(byteArrayOutputStream.toString("GBK"));
-      if (document.text().contains("404 Not Found")){
+      if (document.text().contains("404 Not Found")) {
         log.warn("404");
         return null;
       }
@@ -91,9 +94,9 @@ public class SpiderServiceImpl implements SpiderService {
         Elements span_rights = document.getElementsByClass("span_right");
         Pattern dataPattern = Pattern.compile("\\d{4}年\\d{1,2}月\\d{1,2}日");
         Matcher dataMatcher = dataPattern.matcher(span_rights.text());
-        List<Date> dates = new ArrayList<>();
+        List<LocalDate> dates = new ArrayList<>();
         while (dataMatcher.find()) {
-          dates.add(new SimpleDateFormat("yyyy年MM月dd日").parse(dataMatcher.group(0)));
+          dates.add(LocalDate.parse(dataMatcher.group(0), DATE_TIME_FORMATTER));
         }
         try {
           cwlResult.setOpenTime(dates.get(0));
@@ -149,7 +152,7 @@ public class SpiderServiceImpl implements SpiderService {
         lottery = cwlResult;
       }
 
-    } catch (IOException | ParseException e) {
+    } catch (IOException | DateTimeParseException e) {
       e.printStackTrace();
     }
     return lottery;

@@ -3,10 +3,11 @@ package cn.aethli.thoth.common.utils;
 import cn.aethli.thoth.common.enums.LotteryExceptionType;
 import cn.aethli.thoth.common.enums.LotteryType;
 import cn.aethli.thoth.common.exception.LotteryException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,40 +64,47 @@ public class LotteryUtils {
   /**
    * 根据日期获取期号
    *
-   * @param date
+   * @param resDate
    * @param type
    * @return
    */
-  public static String date2Term(Date date, LotteryType type) throws LotteryException {
-    Calendar currentCal = Calendar.getInstance();
-    currentCal.setTime(date);
+  public static String date2Term(LocalDate resDate, LotteryType type) throws LotteryException {
     switch (type) {
       case QXC:
-        Calendar firstDayOfYear = Calendar.getInstance();
-        firstDayOfYear.set(Calendar.DAY_OF_YEAR, 0);
-        int baseTerm = Integer.parseInt(String.valueOf(currentCal.get(Calendar.YEAR)).substring(2));
-        int weekCount = currentCal.get(Calendar.WEEK_OF_YEAR);
+        LocalDate firstDayOfYear = LocalDate.of(resDate.getYear(), 1, 1);
+        int baseTerm = Integer.parseInt(String.valueOf(resDate.getYear()).substring(2));
+        int weekCount = resDate.get(WeekFields.of(DayOfWeek.MONDAY, 1).weekOfYear());
         weekCount -= 1;
-        int offsetDay = firstDayOfYear.get(Calendar.DAY_OF_WEEK);
+        DayOfWeek offsetDay = firstDayOfYear.getDayOfWeek();
         int offset = 1;
-        if (offsetDay == Calendar.SUNDAY) {
-          offset -= 2;
-        } else if (offsetDay > Calendar.SUNDAY && offsetDay <= Calendar.TUESDAY) {
-
-        } else if (offsetDay > Calendar.TUESDAY && offsetDay <= Calendar.FRIDAY) {
-          offset -= 1;
-        } else if (offsetDay > Calendar.FRIDAY) {
-          offset -= 2;
+        switch (offsetDay) {
+          case MONDAY:
+          case TUESDAY:
+            break;
+          case WEDNESDAY:
+          case THURSDAY:
+          case FRIDAY:
+            offset -= 1;
+            break;
+          case SATURDAY:
+          case SUNDAY:
+            offset -= 2;
+            break;
         }
-        offsetDay = currentCal.get(Calendar.DAY_OF_WEEK);
-        if (offsetDay == Calendar.SUNDAY) {
-          offset += 2;
-        } else if (offsetDay > Calendar.SUNDAY && offsetDay <= Calendar.TUESDAY) {
-
-        } else if (offsetDay > Calendar.TUESDAY && offsetDay <= Calendar.FRIDAY) {
-          offset += 1;
-        } else if (offsetDay > Calendar.FRIDAY) {
-          offset += 2;
+        offsetDay = resDate.getDayOfWeek();
+        switch (offsetDay) {
+          case MONDAY:
+          case TUESDAY:
+            break;
+          case WEDNESDAY:
+          case THURSDAY:
+          case FRIDAY:
+            offset += 1;
+            break;
+          case SATURDAY:
+          case SUNDAY:
+            offset += 2;
+            break;
         }
         return String.valueOf(baseTerm * 1000 + weekCount * 3 + offset);
       case QLC:

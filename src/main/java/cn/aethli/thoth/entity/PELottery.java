@@ -2,9 +2,9 @@ package cn.aethli.thoth.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +30,8 @@ import lombok.Data;
     value = {"openTime", "peDetails"})
 public class PELottery extends Lottery {
 
-  public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+  public static final DateTimeFormatter DATE_TIME_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyyMMdd");
 
   @Transient
   @JsonProperty(value = "drawNews")
@@ -69,7 +70,7 @@ public class PELottery extends Lottery {
   private String numberPool;
 
   @Column(name = "open_time")
-  private Date openTime;
+  private LocalDate openTime;
 
   @Transient
   @JsonProperty(value = "openTime_fmt")
@@ -95,11 +96,11 @@ public class PELottery extends Lottery {
   @JsonProperty(value = "term")
   private String term;
 
-  @Column(name = "totalSales")
+  @Column(name = "total_sales")
   @JsonProperty(value = "totalSales")
   private String totalSales;
 
-  @Column(name = "totalSales2")
+  @Column(name = "total_sales2")
   @JsonProperty(value = "totalSales2")
   private String totalSales2;
 
@@ -130,8 +131,8 @@ public class PELottery extends Lottery {
    */
   public void setOpenTimeFmt1(String openTimeFmt1) {
     try {
-      this.openTime = dateFormat.parse(openTimeFmt1);
-    } catch (ParseException e) {
+      this.openTime = LocalDate.parse(openTimeFmt1, DATE_TIME_FORMATTER);
+    } catch (DateTimeParseException e) {
       e.printStackTrace();
     }
     this.openTimeFmt1 = openTimeFmt1;

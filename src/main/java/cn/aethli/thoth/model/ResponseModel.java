@@ -1,7 +1,7 @@
 package cn.aethli.thoth.model;
 
 import cn.aethli.thoth.common.enums.ResponseStatus;
-import java.util.Date;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ResponseModel {
 
-  private Date date = new Date();
+  private LocalDate date = LocalDate.now();
   private ResponseStatus status;
   private String msg;
   private Object data;

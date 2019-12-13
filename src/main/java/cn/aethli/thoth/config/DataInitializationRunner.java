@@ -11,8 +11,7 @@ import cn.aethli.thoth.repository.DataVersionRepository;
 import cn.aethli.thoth.repository.PELotteryRepository;
 import cn.aethli.thoth.service.DataGetTaskService;
 import java.io.IOException;
-import java.time.ZoneOffset;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,15 +53,11 @@ public class DataInitializationRunner implements CommandLineRunner {
     Optional<PELottery> peLotteryOptional =
         peLotteryRepository.findTopByOpenTimeAndLType(Integer.valueOf(LotteryType.QXC.getParam()));
     if (peLotteryOptional.isPresent()) {
-      Date openTime = peLotteryOptional.get().getOpenTime();
-      if (openTime.after(
-          Date.from(version.getUpdateDt().atStartOfDay(ZoneOffset.ofHours(8)).toInstant()))) {
+      LocalDate openTime = peLotteryOptional.get().getOpenTime();
+      if (openTime.isAfter(version.getUpdateDt())) {
         String offlineTerm = "0";
         try {
-          offlineTerm =
-              LotteryUtils.date2Term(
-                  Date.from(version.getUpdateDt().atStartOfDay(ZoneOffset.ofHours(8)).toInstant()),
-                  LotteryType.QXC);
+          offlineTerm = LotteryUtils.date2Term(version.getUpdateDt(), LotteryType.QXC);
         } catch (LotteryException e) {
           log.error(e.getMessage(), e);
           // todo 异常处理
