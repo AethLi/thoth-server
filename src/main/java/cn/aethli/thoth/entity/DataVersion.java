@@ -34,10 +34,12 @@ public class DataVersion {
   private VersionType type;
 
   public DataVersion() {
+    updateDt=LocalDate.of(2000,1,1);
   }
 
   public DataVersion(String version, VersionType type) {
     this.version = version;
     this.type = type;
+    updateDt=LocalDate.of(2000,1,1);
   }
 }

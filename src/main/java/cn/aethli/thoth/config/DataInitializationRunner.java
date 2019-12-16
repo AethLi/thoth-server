@@ -54,14 +54,18 @@ public class DataInitializationRunner implements CommandLineRunner {
       if (openTime.isAfter(version.getUpdateDt())) {
         String offlineTerm = "0";
         try {
-          offlineTerm = LotteryUtils.date2Term(version.getUpdateDt(), LotteryType.QXC);
+          offlineTerm = LotteryUtils.date2Term(LocalDate.now(), LotteryType.QXC);
         } catch (LotteryException | LunarException e) {
           log.error(e.getMessage(), e);
           // todo 异常处理
           System.exit(0);
         }
-        if (Integer.parseInt(offlineTerm) < Integer.parseInt(peLotteryOptional.get().getTerm())) {}
+        if (Integer.parseInt(offlineTerm) < Integer.parseInt(peLotteryOptional.get().getTerm())) {
+
+        }
       }
+    }else {
+
     }
     try {
       dataGetTaskService.getPELotteries(
