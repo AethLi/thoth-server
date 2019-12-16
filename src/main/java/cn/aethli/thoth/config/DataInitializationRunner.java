@@ -1,5 +1,6 @@
 package cn.aethli.thoth.config;
 
+import cn.aethli.lunar.exception.LunarException;
 import cn.aethli.thoth.common.enums.LotteryType;
 import cn.aethli.thoth.common.enums.VersionType;
 import cn.aethli.thoth.common.exception.LotteryException;
@@ -21,11 +22,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Termite
- * @device Hades
- * @date 2019-11-21 09:37
- */
+/** @author Termite */
 @Order(1)
 @EnableAsync
 @Component
@@ -58,7 +55,7 @@ public class DataInitializationRunner implements CommandLineRunner {
         String offlineTerm = "0";
         try {
           offlineTerm = LotteryUtils.date2Term(version.getUpdateDt(), LotteryType.QXC);
-        } catch (LotteryException e) {
+        } catch (LotteryException | LunarException e) {
           log.error(e.getMessage(), e);
           // todo 异常处理
           System.exit(0);

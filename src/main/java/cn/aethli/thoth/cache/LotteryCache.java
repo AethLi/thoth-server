@@ -6,8 +6,6 @@ import java.util.List;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-12-02 16:26
  */
 public interface LotteryCache {
 

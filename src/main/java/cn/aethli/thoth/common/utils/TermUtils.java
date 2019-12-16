@@ -1,9 +1,7 @@
 package cn.aethli.thoth.common.utils;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-08-26 13:58
+ * @author Termite
  */
 public class TermUtils {
 

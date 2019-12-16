@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @device: Hades
- * @author: Termite
+ * @author Termite
  * @date: 2019-08-26 11:43
  */
 @Slf4j

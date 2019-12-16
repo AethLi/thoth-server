@@ -9,8 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-10-16 14:51
+
  */
 @MappedSuperclass
 @Data

@@ -1,5 +1,6 @@
 package cn.aethli.thoth.common.utils;
 
+import cn.aethli.lunar.exception.LunarException;
 import cn.aethli.thoth.common.enums.LotteryExceptionType;
 import cn.aethli.thoth.common.enums.LotteryType;
 import cn.aethli.thoth.common.exception.LotteryException;
@@ -9,12 +10,10 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
-/**
- * @author Termite
- * @device Hades
- * @date 2019-12-02 17:47
- */
+/** @author Termite */
+@Slf4j
 public class LotteryUtils {
   public static final List<String> qxcOptional;
 
@@ -64,20 +63,22 @@ public class LotteryUtils {
   /**
    * 根据日期获取期号
    *
-   * @param resDate
+   * @param currentDay
    * @param type
    * @return
    */
-  public static String date2Term(LocalDate resDate, LotteryType type) throws LotteryException {
+  public static String date2Term(LocalDate currentDay, LotteryType type)
+      throws LotteryException, LunarException {
     switch (type) {
       case QXC:
-        LocalDate firstDayOfYear = LocalDate.of(resDate.getYear(), 1, 1);
-        int baseTerm = Integer.parseInt(String.valueOf(resDate.getYear()).substring(2));
-        int weekCount = resDate.get(WeekFields.of(DayOfWeek.MONDAY, 1).weekOfYear());
+        LocalDate firstDayOfYear = LocalDate.of(currentDay.getYear(), 1, 1);
+        int baseTerm = Integer.parseInt(String.valueOf(currentDay.getYear()).substring(2));
+        int weekCount = currentDay.get(WeekFields.of(DayOfWeek.MONDAY, 1).weekOfYear());
         weekCount -= 1;
-        DayOfWeek offsetDay = firstDayOfYear.getDayOfWeek();
+        DayOfWeek dayOfWeek = firstDayOfYear.getDayOfWeek();
+        // 第一周的偏移量
         int offset = 1;
-        switch (offsetDay) {
+        switch (dayOfWeek) {
           case MONDAY:
           case TUESDAY:
             break;
@@ -91,8 +92,9 @@ public class LotteryUtils {
             offset -= 2;
             break;
         }
-        offsetDay = resDate.getDayOfWeek();
-        switch (offsetDay) {
+        // 当前周的偏移量
+        dayOfWeek = currentDay.getDayOfWeek();
+        switch (dayOfWeek) {
           case MONDAY:
           case TUESDAY:
             break;
@@ -105,6 +107,16 @@ public class LotteryUtils {
           case SUNDAY:
             offset += 2;
             break;
+        }
+        // 春节的偏移量
+        LocalDate 春节 = DateUtils.getChineseNewYear(currentDay.getYear());
+        LocalDate 初七 = 春节.plusDays(6);
+        if (初七.isBefore(currentDay)) {
+          offset -= 3;
+        } else if (春节.isAfter(currentDay)) {
+        } else if (初七.isAfter(currentDay) && 春节.isBefore(currentDay)) {
+          dayOfWeek = 春节.getDayOfWeek();
+          offset -= 3; // todo 暂时留一个时间计算的bug
         }
         return String.valueOf(baseTerm * 1000 + weekCount * 3 + offset);
       case QLC:

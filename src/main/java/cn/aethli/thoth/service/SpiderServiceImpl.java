@@ -29,9 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @device: Apollo
- * @author: SpiderServiceImpl
- * @date: 2019/9/17
+ * @author SpiderServiceImpl
  */
 @Slf4j
 @Service

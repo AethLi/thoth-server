@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-08-26 16:28
+ * @author Termite
  **/
 @FeignClient(url = "http://www.cwl.gov.cn", name = "cwl")
 public interface CWLLotteryFeign {

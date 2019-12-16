@@ -2,8 +2,6 @@ package cn.aethli.thoth.common.enums;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-12-03 09:18
  */
 public enum LotteryExceptionType {
   TYPE("类别错误"),

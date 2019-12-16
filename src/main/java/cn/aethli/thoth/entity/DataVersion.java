@@ -12,8 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-12-03 10:42
+
  */
 @Entity
 @Data

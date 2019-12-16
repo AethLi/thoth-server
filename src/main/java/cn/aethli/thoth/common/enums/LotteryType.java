@@ -2,8 +2,6 @@ package cn.aethli.thoth.common.enums;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-10-29 15:48
  */
 public enum LotteryType {
   SSQ("双色球", 0, "ssq"),

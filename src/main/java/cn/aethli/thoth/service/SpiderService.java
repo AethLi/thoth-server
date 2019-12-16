@@ -6,9 +6,7 @@ import cn.aethli.thoth.entity.Lottery;
 import java.util.Map;
 
 /**
- * @device: Apollo
- * @author: 93162
- * @date: 2019-09-17 00：00
+ * @author 93162
  */
 public interface SpiderService {
 

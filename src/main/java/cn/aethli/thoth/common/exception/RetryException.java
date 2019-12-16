@@ -2,8 +2,6 @@ package cn.aethli.thoth.common.exception;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-10-14 17:42
  **/
 public class RetryException extends Exception {
 

@@ -17,9 +17,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-09-02 11:55
+ * @author Termite
  */
 @Data
 @Entity

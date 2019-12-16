@@ -2,8 +2,6 @@ package cn.aethli.thoth.common.enums;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-12-03 10:59
  */
 public enum VersionType {
   QXC_UPDATE("七星彩更新",0);

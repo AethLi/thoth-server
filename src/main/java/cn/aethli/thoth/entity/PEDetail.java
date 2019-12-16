@@ -13,9 +13,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-08-23 11:02
+ * @author Termite
  */
 @Data
 @Table(name = "pe_detail")

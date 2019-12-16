@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-12-02 16:36
  */
 @Service
 @CacheConfig(cacheNames = "lottery")

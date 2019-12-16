@@ -10,8 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-12-04 10:07
  */
 public interface DataVersionRepository
     extends JpaRepository<DataVersion, String>, JpaSpecificationExecutor<DataVersion> {

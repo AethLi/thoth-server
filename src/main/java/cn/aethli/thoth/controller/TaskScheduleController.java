@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-08-23 17:56
+ * @author Termite
  */
 @RestControllerAdvice
 @RequestMapping("task")

@@ -7,8 +7,6 @@ import java.util.Map;
 
 /**
  * @author Termite
- * @device Hades
- * @date 2019-10-29 15:53
  **/
 public interface LotteryService {
 

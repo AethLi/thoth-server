@@ -10,9 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-08-26 10:46
+ * @author Termite
  */
 public interface PELotteryRepository
     extends JpaRepository<PELottery, String>, JpaSpecificationExecutor<PELottery> {

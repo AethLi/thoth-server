@@ -16,9 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @device: Apollo
- * @author: 93162
- * @date: 2019/9/26
+ * @author 93162
  */
 @Configuration
 public class OkHttpConfig {

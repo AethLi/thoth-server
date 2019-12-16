@@ -6,9 +6,7 @@ import java.util.List;
 import lombok.Data;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-09-02 11:48
+ * @author Termite
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

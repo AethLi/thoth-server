@@ -16,9 +16,7 @@ import javax.persistence.UniqueConstraint;
 import lombok.Data;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-08-23 11:06
+ * @author Termite
  */
 @Data
 @Table(

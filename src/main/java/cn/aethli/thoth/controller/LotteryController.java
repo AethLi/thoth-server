@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-08-26 14:58
+ * @author Termite
  */
 @Slf4j
 @RestControllerAdvice

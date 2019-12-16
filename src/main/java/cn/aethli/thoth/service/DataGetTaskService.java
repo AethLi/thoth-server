@@ -6,9 +6,7 @@ import cn.aethli.thoth.dto.Lottery;
 import java.io.IOException;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-08-23 18:02
+ * @author Termite
  */
 public interface DataGetTaskService {
   /**

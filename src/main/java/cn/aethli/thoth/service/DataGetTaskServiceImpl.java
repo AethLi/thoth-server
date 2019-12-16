@@ -25,9 +25,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 /**
- * @device: Hades
- * @author: Termite
- * @date: 2019-08-26 09:34
+ * @author Termite
  */
 @Slf4j
 @Service

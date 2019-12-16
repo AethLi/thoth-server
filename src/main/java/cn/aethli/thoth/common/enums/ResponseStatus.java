@@ -1,9 +1,7 @@
 package cn.aethli.thoth.common.enums;
 
 /**
- * @device: Apollo
- * @author: 93162
- * @date: 2019/9/26
+ * @author 93162
  */
 public enum ResponseStatus {
   OK("正常", 0),
