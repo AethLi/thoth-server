@@ -32,6 +32,7 @@ public class LotteryController {
       case QXC:
         break;
     }
+
     return null;
   }
 

@@ -77,7 +77,7 @@ public class LotteryUtils {
         weekCount -= 1;
         DayOfWeek dayOfWeek = firstDayOfYear.getDayOfWeek();
         // 第一周的偏移量
-        int offset = 1;
+        int offset = 0;
         switch (dayOfWeek) {
           case MONDAY:
           case TUESDAY:
